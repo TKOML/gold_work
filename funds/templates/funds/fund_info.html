@@ -1,0 +1,476 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+<!-- funds -->
+	<!-- details -->
+<div class="main_cont">
+    <div class="product_data clearfix">
+        <div class="left_box">
+                <div class="product_title">
+                        <h2 id="product_title"><i class="ic_01" style="background: #CC101B"></i>{{fundmain.name}}<em>{{fundmain.main_code}}</em></h2>
+                        <div class="label">
+                            <span id="product_type">{{fundmain.underlying_asset_type}}</span>
+                        <div class="spel" id="fund_labeljson">
+                </div>
+                    <em id="risk_level" class="risk_ic02">中风险</em>
+            </div>
+        </div>
+    <div id="productInfo" class="product_info clearfix"><dl><dd><strong class="ared">{{fundvalues_last.net_value| floatformat:2}}</strong></dd><dt>单位净值({{fundvalues_last.day|date:"Y-m-d"}})</dt></dl><dl><dd><strong class="ared">{{fundvalues_last.sum_value| floatformat:2}}</strong></dd><dt>累计净值</dt></dl><dl><dd><strong class="agreen">{{fundvalues_last.daily_return| floatformat:2}}<span>%</span></strong></dd><dt>日涨跌幅</dt></dl><div id="indexlight" class="fund_gzinfo"></div></div>
+</div>
+
+<div class="right_box">
+    <div class="pd_opeabox" id="pd_opeabox"></div>  
+</div>
+</div>
+
+
+<div class="product_detail clearfix">
+    <div class="left_box">
+            <div class="pd_module">
+                <ul id="fundChartType" class="tab_ul nav nav-tabs">
+                    <li class="nohb nav-item  act" data-type="1" style=""><a href="#fund_totalreturn_line" class="animate">收益曲线</a></li>
+                    <li class="nohb nav-item" data-type="2" style=""><a href="#fund_netvalue_line" class="animate">单位净值</a></li>
+                    <li class="nohb nav-item" data-type="3" style=""><a href="#fund_sumvalue_line" class="animate">累计净值</a></li>
+                </ul>
+                <div id="fundChartTime" class="pd_tabcont tab-content">                    
+                    <div class="tab-pane active" id="fund_totalreturn_line">
+                         {{fund_totalreturn_line|safe}} 
+                    </div>
+                    <div class="tab-pane" id="fund_netvalue_line">
+                         {{fund_netvalue_line|safe}} 
+                    </div>
+                    <div class="tab-pane" id="fund_sumvalue_line">
+                         {{fund_sumvalue_line|safe}} 
+                    </div>                                          
+                </div>
+
+
+            </div>
+
+        <div class="pd_module">
+            <ul id="product_tab" class="tab_ul">
+               <li class=""><a href="javascript:history.replaceState({},'','/main/fund/070002/fundRecord.shtml')" class="animate">基金档案</a></li>
+               <li class=""><a href="javascript:history.replaceState({},'','/main/fund/070002/fundHolding.shtml')" class="animate">持仓情况</a></li>
+               <li class=""><a href="javascript:history.replaceState({},'','/main/fund/070002/fundNav.shtml')" class="animate">基金净值</a></li>
+            </ul>
+    
+    <div class="pd_tabcont" id="fundDetailsList1" style="">
+        <div class="sub_tabnav">
+            <ul class="nav nav-tabs" id="Fund_Detail">
+                <li class="nav-item"><a class="nav-link active" href="#funddetail_info">基金详情</a></li>
+                <li class="nav-item"><a class="nav-link" href="#fundrisk_info">风险提示函</a></li>
+            </ul>
+        </div>
+        <div class="tab-content">
+        <div class="tab-pane active" id="funddetail_info">
+            <div class="pd_detail_box mt40">
+                <div class="pd_detail_tit">
+                    <h3><i class="ic_01"></i>基本信息</h3>
+                </div>
+                <div class="data_table2">
+                    <table class="lr_str2" width="100%" cellspacing="0" cellpadding="0" border="0">
+                        <tbody><tr>
+                            <th width="18%">基金全称</th>
+                            <td id="tem_name" width="32%">{{fundmain.name}}</td>
+                            <th width="18%">运作方式</th>
+                            <td id="run_way" width="32%">{{fundmain.operate_mode}}</td>
+                        </tr>
+                        <tr>
+                            <th>基金简称</th>
+                            <td id="tem_abbr">{{fundmain.name}}</td>
+                            <th>成立日期</th>
+                            <td id="tem_start">{{fundmain.start_date|date:"Y-m-d"}}</td>
+                        </tr>
+                        <tr>
+                            <th>基金代码</th>
+                            <td id="tem_code">{{fundmain.main_code}}</td>
+                            <th>资产净值</th>
+                            <td id="tem_zcjz"></td>
+                        </tr>
+                        <tr>
+                            <th>基金类型</th>
+                            <td id="tem_type">{{fundmain.underlying_asset_type}}</td>
+                            <th>最新份额</th>
+                            <td id="tem_scale"></td>
+                        </tr>
+                        <tr>
+                            <th>风险等级</th>
+                            <td id="tem_risk">中风险<a target="_blank" href="https://www.jsfund.cn/main/a/20190219/417358.shtml" class="ared">（查看划分方法与说明)</a></td>
+                            <th>基金管理人</th>
+                            <td id="tem_manage">{{fundmain.advisor}}</td>
+                        </tr>
+                        <tr>
+                            <th>基金经理</th>
+                            <td id="tem_manager"></td>
+                            <th>基金托管人</th>
+                            <td id="tem_custodian">{{fundmain.trustee}}</td>
+                        </tr>
+                    </tbody></table>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane" id="fundrisk_info">
+            <div class="pd_detail_box">
+                <div class="pd_detail_tit">
+                    <h3><i class="ic_01"></i>风险提示函</h3>
+                </div>
+                <div class="detail_info">
+                    <p class="text_indent" id="risk_tips"><p>本基金不提供任何保证。投资者可能损失投资本金。
+投资有风险，投资者购买基金时应认真阅读本基金的《招募说明书》等销售文件。
+投资于本系列基金的风险主要包括：市场风险、信用风险、投资风险、流动性风险、管理风险、操作
+或技术风险、合规性风险、转换风险和其他风险。</p></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+   
+    <div class="pd_tabcont" id="fundDetailsList4" style="display: none;">
+        <div class="sub_tabnav">
+            <ul>
+                <li class="act"><a class="animate" href="javascript:void(0);">资产配置</a></li>
+                <li><a class="animate" href="javascript:void(0);">行业分布</a></li>
+                <li><a class="animate" href="javascript:void(0);">股票持仓</a></li>
+                <li><a class="animate" href="javascript:void(0);">债券持仓</a></li>
+            </ul>
+        </div>
+        <div class="sub_tabcont" id="positionSituationList1">
+            <div class="pd_detail_box">
+                <div class="time_select">
+                    统计时间：<span class="value">2021年第三季度<i></i></span>
+                    <div class="time_select_layer" style="display: none; padding-right: 0px; padding-bottom: 0px; overflow: hidden;" paddingr="0px" paddingb="0px"><div class="zl-scrollContentDiv">
+                        <ul class="list"><li data-date="2021-09-30"><span>2021年第三季度</span></li><li data-date="2021-06-30"><span>2021年第二季度</span></li><li data-date="2021-03-31"><span>2021年第一季度</span></li><li data-date="2020-12-31"><span>2020年第四季度</span></li><li data-date="2020-09-30"><span>2020年第三季度</span></li><li data-date="2020-06-30"><span>2020年第二季度</span></li><li data-date="2020-03-31"><span>2020年第一季度</span></li><li data-date="2019-12-31"><span>2019年第四季度</span></li><li data-date="2019-09-30"><span>2019年第三季度</span></li><li data-date="2019-06-30"><span>2019年第二季度</span></li><li data-date="2019-03-31"><span>2019年第一季度</span></li><li data-date="2018-12-31"><span>2018年第四季度</span></li><li data-date="2018-09-30"><span>2018年第三季度</span></li><li data-date="2018-06-30"><span>2018年第二季度</span></li><li data-date="2018-03-31"><span>2018年第一季度</span></li><li data-date="2017-12-31"><span>2017年第四季度</span></li><li data-date="2017-09-30"><span>2017年第三季度</span></li><li data-date="2017-06-30"><span>2017年第二季度</span></li><li data-date="2017-03-31"><span>2017年第一季度</span></li><li data-date="2016-12-31"><span>2016年第四季度</span></li><li data-date="2016-09-30"><span>2016年第三季度</span></li><li data-date="2016-06-30"><span>2016年第二季度</span></li><li data-date="2016-03-31"><span>2016年第一季度</span></li><li data-date="2015-12-31"><span>2015年第四季度</span></li><li data-date="2015-09-30"><span>2015年第三季度</span></li><li data-date="2015-06-30"><span>2015年第二季度</span></li><li data-date="2015-03-31"><span>2015年第一季度</span></li><li data-date="2014-12-31"><span>2014年第四季度</span></li><li data-date="2014-09-30"><span>2014年第三季度</span></li><li data-date="2014-06-30"><span>2014年第二季度</span></li><li data-date="2014-03-31"><span>2014年第一季度</span></li><li data-date="2013-12-31"><span>2013年第四季度</span></li><li data-date="2013-09-30"><span>2013年第三季度</span></li><li data-date="2013-06-30"><span>2013年第二季度</span></li><li data-date="2013-03-31"><span>2013年第一季度</span></li><li data-date="2012-12-31"><span>2012年第四季度</span></li><li data-date="2012-06-30"><span>2012年第二季度</span></li><li data-date="2012-03-31"><span>2012年第一季度</span></li><li data-date="2011-12-31"><span>2011年第四季度</span></li><li data-date="2011-09-30"><span>2011年第三季度</span></li><li data-date="2011-06-30"><span>2011年第二季度</span></li><li data-date="2011-03-31"><span>2011年第一季度</span></li><li data-date="2010-12-31"><span>2010年第四季度</span></li><li data-date="2010-09-30"><span>2010年第三季度</span></li><li data-date="2010-06-30"><span>2010年第二季度</span></li><li data-date="2010-03-31"><span>2010年第一季度</span></li><li data-date="2009-12-31"><span>2009年第四季度</span></li><li data-date="2009-09-30"><span>2009年第三季度</span></li><li data-date="2009-06-30"><span>2009年第二季度</span></li><li data-date="2009-03-31"><span>2009年第一季度</span></li></ul>
+                    </div></div>
+                </div>
+                <div class="pd_detail_tit">
+                    <h3><i class="ic_01"></i>资产配置<span>2021-09-30</span></h3>
+                </div>
+                <div class="mt20 clearfix" id="assetAllocationDetails">
+                    <div class="chart_imgbox2" id="pieChart1" style="user-select: none; position: relative;" _echarts_instance_="ec_1637162375227"><div style="position: relative; width: 220px; height: 220px; padding: 0px; margin: 0px; border-width: 0px;"><canvas style="position: absolute; left: 0px; top: 0px; width: 220px; height: 220px; user-select: none; padding: 0px; margin: 0px; border-width: 0px;" data-zr-dom-id="zr_0" width="220" height="220"></canvas></div><div></div></div>
+                    <div class="chart_info2">
+                        <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                            <tr>
+                                <th class="first">资产分布</th>
+                                <th>金额(元)</th>
+                                <th>占总资产比例(％)</th>
+                                <th class="last">较上期</th>
+                            </tr>
+                            </tbody>
+                            <tbody id="assetAllocationList"><tr>													<td class="first">														<p class="name"><em style="background: #ED0000"></em>股票</p>													</td>													<td>														<span>2,543,255,187.60</span>													</td>													<td>														<span>74.31%</span>													</td>													<td class="last">														<span>1.33%<i class="compare_up"></i></span>													</td>												</tr><tr class="even">													<td class="first">														<p class="name"><em style="background: #F67A03"></em>债券</p>													</td>													<td>														<span>762,022,136.10</span>													</td>													<td>														<span>22.26%</span>													</td>													<td class="last">														<span>1.94%<i class="compare_up"></i></span>													</td>												</tr><tr>													<td class="first">														<p class="name"><em style="background: #F9C304"></em>银行存款和结算备付金合计</p>													</td>													<td>														<span>107,105,841.55</span>													</td>													<td>														<span>3.13%</span>													</td>													<td class="last">														<span>-3.15%<i class="compare_down"></i></span>													</td>												</tr><tr class="even">													<td class="first">														<p class="name"><em style="background: #D3B28C"></em>其他资产</p>													</td>													<td>														<span>10,249,086.53</span>													</td>													<td>														<span>0.30%</span>													</td>													<td class="last">														<span>-0.12%<i class="compare_down"></i></span>													</td>												</tr><tr>										<td class="first">											<p class="name"><em></em>合计</p>										</td>										<td>											<span>3,422,632,251.78</span>										</td>										<td>											<span>100%</span>										</td>										<td class="last">											<span>0.00%<i style="display: inline-block;vertical-align: middle;width: 10px;height: 0;margin-left: 9px;"></i></span>										</td>									</tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sub_tabcont" id="positionSituationList2" style="display: none;">
+            <div class="pd_detail_box">
+                <div class="time_select">
+                    统计时间：<span class="value"><i></i></span>
+                    <div class="time_select_layer" style="display: none; padding-right: 0px; padding-bottom: 0px; overflow: hidden;" paddingr="0px" paddingb="0px"><div class="zl-scrollContentDiv">
+                        <ul class="list">
+
+                        </ul>
+                    </div></div>
+                </div>
+                <div class="pd_detail_tit">
+                    <h3><i class="ic_01"></i>行业分布<span></span></h3>
+                </div>
+                <div class="mt20 clearfix">
+                    <div class="chart_imgbox3" id="pieChart2"></div>
+                    <div class="chart_info3">
+                        <ul class="two clearfix" id="pieChart2List">
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="data_table2 mt40">
+                    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                        <tbody>
+                        <tr>
+                            <th width="37%">行业名称</th>
+                            <th width="24%">市值（万元）</th>
+                            <th width="24%">占基金净值比例(％)</th>
+                            <th width="15%">较上期</th>
+                        </tr>
+                        </tbody>
+                        <tbody id="ndustryDistribution">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="sub_tabcont" id="positionSituationList3" style="display: none;">
+            <div class="pd_detail_box">
+                <div class="time_select">
+                    指定季度行业配置：<span class="value"><i></i></span>
+                    <div class="time_select_layer" style="display: none; padding-right: 0px; padding-bottom: 0px; overflow: hidden;" paddingr="0px" paddingb="0px"><div class="zl-scrollContentDiv">
+                        <ul class="list">
+
+                        </ul>
+                    </div></div>
+                </div>
+                <div class="pd_detail_tit">
+                    <h3><i class="ic_01"></i>十大重仓股票<span></span></h3>
+                </div>
+                <div class="mt20 clearfix">
+                    <div class="chart_imgbox3" id="pieChart3"></div>
+                    <div class="chart_info3">
+                        <ul class="two clearfix" id="pieChart3List">
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="data_table2 mt40">
+                    <div class="table_top_tit">
+                        <span class="info">数据取自【基金最新季报】报告日期：2020-06-30</span>
+                        <h5>2020年2季度重仓股票明细</h5>
+                    </div>
+                    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                        <tbody>
+                        <tr>
+                            <th width="12%">股票代码</th>
+                            <th width="23%">股票名称</th>
+                            <th width="17%">持股数量（股）</th>
+                            <th width="17%">市值（万元）</th>
+                            <th width="17%">占总资产比例</th>
+                            <th width="14%">较上期</th>
+                        </tr>
+                        </tbody>
+                        <tbody id="heavyPositionsList">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="pd_detail_box mt40" id="changesInShareholding">
+                <div class="pd_detail_tit">
+                    <h3><i class="ic_01"></i>持股变动<span></span></h3>
+                </div>
+                <div class="clearfix">
+                    <div class="time_select">
+                        指定报告时间：<span class="value"><i></i></span>
+                        <div class="time_select_layer" style="display: none; padding-right: 0px; padding-bottom: 0px; overflow: hidden;" paddingr="0px" paddingb="0px"><div class="zl-scrollContentDiv">
+                            <ul class="list">
+
+                            </ul>
+                        </div></div>
+                    </div>
+                    <ul class="spel_tabnav">
+                        <li class="act"><a class="animate" href="javascript:void(0);">累计买入</a></li>
+                        <li><a class="animate" href="javascript:void(0);">累计卖出</a></li>
+                    </ul>
+                </div>
+                <div class="">
+                    <div class="table_top_tit">
+
+                    </div>
+                    <div id="changesInShareholdingList">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sub_tabcont" id="positionSituationList4" style="display: none;">
+            <div class="pd_detail_box">
+                <div class="time_select">
+                    统计时间：<span class="value"><i></i></span>
+                    <div class="time_select_layer" style="display: none; padding-right: 0px; padding-bottom: 0px; overflow: hidden;" paddingr="0px" paddingb="0px"><div class="zl-scrollContentDiv">
+                        <ul class="list">
+
+                        </ul>
+                    </div></div>
+                </div>
+                <div class="pd_detail_tit">
+                    <h3><i class="ic_01"></i>五大重仓债券<span></span></h3>
+                </div>
+                <div class="data_table2">
+                    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                        <tbody>
+                        <tr>
+                            <th>债券代码</th>
+                            <th>债券简称</th>
+                            <th>数量（张）</th>
+                            <th>持仓市值（万元）</th>
+                            <th>占净值比例（%）</th>
+                        </tr>
+                        </tbody>
+                        <tbody id="fiveLargePositionsList">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="pd_detail_box mt40">
+                <div class="pd_detail_tit">
+                    <h3><i class="ic_01"></i>券种组合</h3>
+                </div>
+                <div class="clearfix">
+                    <div class="chart_imgbox2" id="pieChart4"></div>
+                    <div class="chart_info2">
+                        <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                            <tr>
+                                <th class="first">资产分布</th>
+                                <th>金额(元)</th>
+                                <th>占总资产比例(％)</th>
+                                <th class="last">较上期</th>
+                            </tr>
+                            </tbody>
+                            <tbody id="portfolioOfSecuritiesList">
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pd_tabcont" id="fundDetailsList5" style="display: none;">
+        <div class="sub_tabnav">
+            <ul>
+                <li class="act"><a class="animate" href="javascript:void(0);">历史净值</a></li>
+                <li><a class="animate" href="javascript:void(0);">分红/拆分</a></li>
+                <li id="beforeTran" style="display: none;"><a class="animate" href="javascript:void(0);">转型前历史收益</a></li>
+            </ul>
+        </div>
+        <div class="sub_tabcont" id="netFundValueList1">
+            <div class="pd_detail_box">
+                <div class="pd_detail_tit clearfix">
+                    <div class="filter_date1 fr">
+                        <input class="t1" type="text" placeholder="开始时间" id="fund_start2" readonly="readonly" style="cursor: pointer;">
+                        <span class="line">~</span>
+                        <input class="t1" type="text" placeholder="结束时间" id="fund_end2" readonly="readonly" style="cursor: pointer;">
+                        <i class="icon"></i>
+                    </div>
+                    <h3><i class="ic_01"></i>历史净值</h3>
+                </div>
+                <div id="historicalNavList"><div class="data_table2">  <table width="100%" cellspacing="0" cellpadding="0" border="0">   <tbody>    <tr>     <th width="25%">日期</th>     <th width="25%">单位净值(元)</th>     <th width="25%">累计净值(元)</th>     <!--<th width="25%">日涨跌</th>-->    </tr>        <tr>     <td><span>2021-11-17</span></td>     <td><span>21.5422</span></td>     <td><span>22.2132</span></td>     <!--            <td><span>--%</span></td>           -->    </tr>        <tr>     <td><span>2021-11-16</span></td>     <td><span>21.5453</span></td>     <td><span>22.2163</span></td>     <!--            <td><span>--%</span></td>           -->    </tr>        <tr>     <td><span>2021-11-15</span></td>     <td><span>21.397</span></td>     <td><span>22.068</span></td>     <!--            <td><span>--%</span></td>           -->    </tr>        <tr>     <td><span>2021-11-12</span></td>     <td><span>21.3842</span></td>     <td><span>22.0552</span></td>     <!--            <td><span>--%</span></td>           -->    </tr>        <tr>     <td><span>2021-11-11</span></td>     <td><span>21.4527</span></td>     <td><span>22.1237</span></td>     <!--            <td><span>--%</span></td>           -->    </tr>        <tr>     <td><span>2021-11-10</span></td>     <td><span>21.243</span></td>     <td><span>21.914</span></td>     <!--            <td><span>--%</span></td>           -->    </tr>        <tr>     <td><span>2021-11-09</span></td>     <td><span>21.3567</span></td>     <td><span>22.0277</span></td>     <!--            <td><span>--%</span></td>           -->    </tr>        <tr>     <td><span>2021-11-08</span></td>     <td><span>21.1318</span></td>     <td><span>21.8028</span></td>     <!--            <td><span>--%</span></td>           -->    </tr>        <tr>     <td><span>2021-11-05</span></td>     <td><span>21.4648</span></td>     <td><span>22.1358</span></td>     <!--            <td><span>--%</span></td>           -->    </tr>        <tr>     <td><span>2021-11-04</span></td>     <td><span>21.4934</span></td>     <td><span>22.1644</span></td>     <!--            <td><span>--%</span></td>           -->    </tr>       </tbody>  </table> </div> <div class="page_box pageBar"><span class="total">共 4474条<span><a href="javascript:void(0);" id="pre_page" class="prev"></a><a href="javascript:void(0);" class="page_num active" data-pagenum="1">1</a><a href="javascript:void(0);" class="page_num" data-pagenum="2">2</a><a href="javascript:;" class="page_num" data-pagenum="3">3</a> . . . <a href="javascript:void(0);" class="page_num" data-pagenum="448">448</a><a href="javascript:void(0);" id="next_page" class="next"></a></span></span></div></div>
+                <div class="export_wrap" id="exportWrap" style=""><a style="top:-60px;" class="export_link" href="javascript:void(0);">导出数据</a></div>
+            </div>
+        </div>
+        <div class="sub_tabcont" id="netFundValueList2" style="display: none;">
+            <div class="pd_detail_box">
+                <div class="pd_detail_tit">
+                    <h3><i class="ic_01"></i>分红记录</h3>
+                </div>
+                <div class="data_table2">
+                    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                        <tbody>
+                        <tr>
+                            <th width="12%">年份</th>
+                            <th width="22%">权益登记日</th>
+                            <th width="22%">除息日</th>
+                            <th width="22%">每10份分红(元)</th>
+                            <th width="22%">分红发放日</th>
+                        </tr>
+                        </tbody>
+                        <tbody id="dividendRecordsList">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="pd_detail_box mt40">
+                <div class="pd_detail_tit">
+                    <h3><i class="ic_01"></i>拆分记录</h3>
+                </div>
+                <div class="data_table2">
+                    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                        <tbody>
+                        <tr>
+                            <th width="25%">拆分日期</th>
+                            <th width="25%">权益登记日</th>
+                            <th width="25%">拆分后净值</th>
+                            <th width="25%">拆分比例</th>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <span class="no_data01">暂无拆分记录</span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="sub_tabcont" id="netFundValueList3" style="display: none;">
+            <div class="pd_detail_box">
+                <div class="pd_detail_tit clearfix">
+                    <div class="filter_date1 fr">
+                        <input class="t1" type="text" placeholder="开始时间" id="fund_start3" readonly="readonly" style="cursor: pointer;">
+                        <span class="line">~</span>
+                        <input class="t1" type="text" placeholder="结束时间" id="fund_end3" readonly="readonly" style="cursor: pointer;">
+                        <i class="icon"></i>
+                    </div>
+                    <h3><i class="ic_01"></i>转型前历史收益</h3>
+                </div>
+                <div id="beforeHistoricalList">
+					
+                </div>
+                <div class="export_wrap" id="beforeExportWrap" style="display: none;"><a style="top:-60px;" class="export_link" href="javascript:void(0);">导出数据</a></div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+</div>
+
+
+</div>
+<div class="right_box" id="right_box2">
+            <p class="pd_imptips">市场短期会存在波动，建议理性看待基金净值波动，关注长期业绩！</p>
+
+    <div class="pd_right_module pd_right_module1"><div class="pd_right_tit"><h3>收益表现</h3><span class="info">2021-11-17</span></div><div class="sy_table"><table width="100%" cellspacing="0" cellpadding="0" border="0"><tbody><tr><th>近1月：</th><td><span class="ared">1.02%</span></td></tr><tr><th>近3月：</th><td><span class="agreen">-1.05%</span></td></tr><tr><th>近6月：</th><td><span class="agreen">-5.21%</span></td></tr><tr><th>今年以来：</th><td><span class="ared">0.65%</span></td></tr><tr><th>近1年：</th><td><span class="ared">10.85%</span></td></tr><tr><th>近3年：</th><td><span class="ared">141.61%</span></td></tr><tr><th>近5年：</th><td><span class="ared">119.04%</span></td></tr><tr><th>成立以来：</th><td><span class="ared">2835.41%</span></td></tr></tbody></table></div></div>
+
+
+</div>
+</div>
+
+</div>
+
+
+{% endblock %}
+
+{% block script %}
+
+<script>
+    $(function () {
+        $('#Fund_Detail a:first').tab('show');//初始化显示哪个tab
+
+        $('#Fund_Detail a').click(function (e) {
+            e.preventDefault();//阻止a链接的跳转行为
+            $(this).tab('show');//显示当前选中的链接及关联的content
+        })
+    })
+</script>
+
+<script>
+    $(function () {
+        $('#fundChartType a:first').tab('show');//初始化显示哪个tab
+
+        $('#fundChartType a').click(function (e) {
+            e.preventDefault();//阻止a链接的跳转行为
+            $(this).tab('show');//显示当前选中的链接及关联的content
+
+        })
+        $("li").click(function(e){
+             $(this).siblings('li').removeClass('act');
+             $(this).addClass('act')
+        })
+    })
+</script>
+
+{% endblock %}

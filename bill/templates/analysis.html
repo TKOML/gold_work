@@ -1,0 +1,209 @@
+{% extends 'zzbill.html' %}
+{% load static %}
+{% block content %}
+    <div class="container">
+        <div class="row" style="width: 1150px">
+            <div class="col-sm-2">
+                <div class="panel panel-info" style="width:100%;height:70px">
+                    <div class="panel-heading" style="height:30px">月总收入（元）</div>
+                    <div class="panel-body">
+                        {{  income }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="panel panel-info" style="width:100%;height:70px">
+                    <div class="panel-heading" style="height:30px">月总支出（元）</div>
+                    <div class="panel-body" style="height:40px">
+                        {{  outcome }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="panel panel-info" style="width:100%;height:70px">
+                    <div class="panel-heading" style="height:30px">月结余（元）</div>
+                    <div class="panel-body">
+                        {{  surplus  }}
+                    </div>
+                </div>
+            </div>
+            <div style="float: right; width: 200px;">
+                <form method="get">
+<!--                    {% csrf_token %}-->
+                    <div class="input-group">
+<!--                        <input type="text" name="year" class="form-control" value="{{ search_data}}" style="width:100px" placeholder="年份">-->
+<!--                        <span class="input-group-btn">-->
+<!--                            <button class="btn btn-default" type="submit">-->
+<!--                                <span class="glyphicon glyphicon-search" aria-hidden="true">-->
+<!--                                </span>-->
+<!--                            </button>-->
+<!--                        </span>-->
+                        <input type="month" name="year_month" class="form-control"  value="{{ search_data }}">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit">
+                                <span class="glyphicon glyphicon-search" aria-hidden="true">
+                                </span>
+                            </button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+<!--        <div class="row">-->
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">月收支统计</div>
+                    <div class="panel-body">
+                        <div id="chart_1" style="width:100%;height:400px">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">支出类型占比统计</div>
+                    <div class="panel-body">
+                        <div id="chart_2" style="width:100%;height:400px">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">收入类型占比统计</div>
+                    <div class="panel-body">
+                        <div id="chart_3" style="width:100%;height:400px">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
+{% load static %}
+{% block js %}
+    <script src="{% static 'js/echarts.js' %}"></script>
+    <script type="text/javascript">
+        $(function() {
+            init_chart_1();
+            init_chart_2();
+            init_chart_3();
+        })
+        function init_chart_1(){
+            var myChart = echarts.init(document.getElementById('chart_1'));
+
+            var option = {
+                title: {
+                    text: '月收入支出',
+                    textAlign: "auto",
+                    left: "center",
+                },
+                tooltip: {},
+                legend: {
+                    data: {{ legend | safe }},  // 后台获取
+                    bottom: 0
+                },
+                xAxis: {
+                    data: {{ x_axis | safe }},  // 后台获取
+                },
+                yAxis: {},
+                series: {{ series_list | safe }},  // 后台获取
+            };
+            myChart.setOption(option);
+<!--            $.ajax({-->
+<!--                url: "/bill/zzbill/analysis/bar",-->
+<!--                type: "get",-->
+<!--                dataType: "JSON",-->
+<!--                success: function (res) {-->
+<!--                    // 将后台返回的数据，更新到option中。-->
+<!--                    if (res.status) {-->
+<!--                        option.legend.data = res.data.legend;-->
+<!--                        option.xAxis.data = res.data.x_axis;-->
+<!--                        option.series = res.data.series_list;-->
+
+<!--                        // 使用刚指定的配置项和数据显示图表。-->
+<!--                        myChart.setOption(option);-->
+<!--                    }-->
+<!--                }-->
+<!--            })-->
+        }
+        function init_chart_2() {
+            var myChart = echarts.init(document.getElementById('chart_2'));
+            var option = {
+            title: {
+                text: '各类型支出占比',
+                left: 'center'
+            },
+                tooltip: {
+                    trigger: 'item'
+                },
+                legend: {
+
+                    bottom: 0
+                },
+                series: [
+                    {
+                        name: '预算',
+                        type: 'pie',
+                        radius: '50%',
+                        data: {{ data | safe }},
+                        emphasis: {
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }
+                ]
+            };
+            myChart.setOption(option);
+<!--            $.ajax({-->
+<!--                url: "/bill/zzbill/analysis/pie",-->
+<!--                type: "get",-->
+<!--                dataType: "JSON",-->
+<!--                success: function (res) {-->
+<!--                    if (res.status) {-->
+<!--                        option.series[0].data = res.data;-->
+<!--                        myChart.setOption(option);-->
+<!--                    }-->
+<!--                }-->
+<!--            })-->
+        }
+        function init_chart_3() {
+            var myChart = echarts.init(document.getElementById('chart_3'));
+            var option = {
+            title: {
+                text: '各类型收入占比',
+                left: 'center'
+            },
+                tooltip: {
+                    trigger: 'item'
+                },
+                legend: {
+
+                    bottom: 0
+                },
+                series: [
+                    {
+                        name: '预算',
+                        type: 'pie',
+                        radius: '50%',
+                        data: {{ data_2 | safe }},
+                        emphasis: {
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }
+                ]
+            };
+            myChart.setOption(option);
+        }
+    </script>
+{% endblock %}

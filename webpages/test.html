@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <!-- 必须的 meta 标签 -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap 的 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <h1>Hello, world!</h1>
+
+    <!-- JavaScript 文件是可选的。从以下两种建议中选择一个即可！ -->
+
+    <!-- 选项 1：jQuery 和 Bootstrap 集成包（集成了 Popper） -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+
+    <!-- 选项 2：Popper 和 Bootstrap 的 JS 插件各自独立 -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js" integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2" crossorigin="anonymous"></script>
+    -->
+    <link href="style.css" rel='stylesheet' type='text/css' />
+
+<ul class="nav nav-tabs" id="otherInfoTab">
+    <li class="active"><a href="#time_line">时间轴</a></li>
+    <li><a href="#complain">投诉</a></li>
+    <li><a href="#sms_send">短信回评</a></li>
+    <li><a href="#order_path">订单轨迹</a></li>
+    <li><a href="#order_paths">xxx</a></li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane active" id="time_line">111</div>
+    <div class="tab-pane" id="complain">222</div>
+    <div class="tab-pane" id="sms_send">333</div>
+    <div class="tab-pane" id="order_path">444</div>
+    <div class="tab-pane" id="order_paths">zz</div>
+</div>
+
+
+<script>
+    $(function () {
+        $('#otherInfoTab a:last').tab('show');//初始化显示哪个tab
+
+        $('#otherInfoTab a').click(function (e) {
+            e.preventDefault();//阻止a链接的跳转行为
+            $(this).tab('show');//显示当前选中的链接及关联的content
+        })
+    })
+</script>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Features</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Pricing</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled">Disabled</a>
+      </li>
+    </ul>
+
+
+</div>
+
+  </div>
+</nav>
+
+<ul class="nav nav-tabs" id="maintab">
+  <li class="nav-item">
+    <a class="nav-link active" href="#Active1">Active</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#Link1">Link</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#Link2">Link</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link disabled">Disabled</a>
+  </li>
+</ul>
+
+    <div class="tab-content">
+    <div class="tab-pane active" id="Active1">111</div>
+    <div class="tab-pane" id="Link1">222</div>
+    <div class="tab-pane" id="Link2">333</div>
+    </div> 
+<script>
+    $(function () {
+        $('#maintab a:last').tab('show');//初始化显示哪个tab
+
+        $('#maintab a').click(function (e) {
+            e.preventDefault();//阻止a链接的跳转行为
+            $(this).tab('show');//显示当前选中的链接及关联的content
+        })
+    })
+</script>
+
+    <div class="pd_tabcont" id="fundDetailsList1" style="">
+        <div class="sub_tabnav">
+            <ul class="nav nav-tabs" id="Fund_Detail">
+                <li class="nav-item"><a class="nav-link active" href="#funddetail_info">基金详情</a></li>
+                <li class="nav-item" ><a class="nav-link" href="#risk_info">风险提示函</a></li>
+            </ul>
+        </div>
+        <div class="tab-content">
+        <div class="tab-pane active" id="funddetail_info">
+            <div class="pd_detail_box mt40">
+                <div class="pd_detail_tit">
+                    <h3><i class="ic_01"></i>基本信息</h3>
+                </div>
+                <div class="data_table2">
+                    <table class="lr_str2" width="100%" cellspacing="0" cellpadding="0" border="0">
+                        <tbody><tr>
+                            <th width="18%">基金全称</th>
+                            <td id="tem_name" width="32%">嘉实增长开放式证券投资基金</td>
+                            <th width="18%">运作方式</th>
+                            <td id="run_way" width="32%">契约型开放式</td>
+                        </tr>
+                        <tr>
+                            <th>基金简称</th>
+                            <td id="tem_abbr">嘉实增长混合</td>
+                            <th>成立日期</th>
+                            <td id="tem_start">2003-07-09</td>
+                        </tr>
+                        <tr>
+                            <th>基金代码</th>
+                            <td id="tem_code">070002</td>
+                            <th>资产净值</th>
+                            <td id="tem_zcjz">38.31亿元(日期：2021-06-30)</td>
+                        </tr>
+                        <tr>
+                            <th>基金类型</th>
+                            <td id="tem_type">主动股票类</td>
+                            <th>最新份额</th>
+                            <td id="tem_scale">161,215,891.06</td>
+                        </tr>
+                        <tr>
+                            <th>风险等级</th>
+                            <td id="tem_risk">中风险<a target="_blank" href="https://www.jsfund.cn/main/a/20190219/417358.shtml" class="ared">（查看划分方法与说明)</a></td>
+                            <th>基金管理人</th>
+                            <td id="tem_manage">嘉实基金管理有限公司</td>
+                        </tr>
+                        <tr>
+                            <th>基金经理</th>
+                            <td id="tem_manager">归凯</td>
+                            <th>基金托管人</th>
+                            <td id="tem_custodian">中国银行股份有限公司</td>
+                        </tr>
+                    </tbody></table>
+                </div>
+            </div>
+            <div class="pd_detail_box mt40">
+                <div class="pd_detail_tit">
+                    <h3><i class="ic_01"></i>业绩比较基准</h3>
+                </div>
+                <div class="detail_info">
+                    <p id="floating_income_rate">60%*巨潮 500（小盘）指数收益率+40%*中债总指数收益率</p>
+                </div>
+            </div>
+            <div class="pd_detail_box mt40">
+                <div class="pd_detail_tit">
+                    <h3><i class="ic_01"></i>投资目标</h3>
+                </div>
+                <div class="detail_info">
+                    <p id="invest_objective">本基金投资于具有高速成长潜力的中小企业上市公司以获取未来资本增值的机会，并谋求基金资产的中长期稳定增值，同时通过分散投资提高基金资产的流动性。</p>
+                </div>
+            </div>
+            <div class="pd_detail_box mt40">
+                <div class="pd_detail_tit">
+                    <h3><i class="ic_01"></i>投资范围</h3>
+                </div>
+                <div class="detail_info">
+                    <p id="invest_scope">本基金限于投资具有良好流动性的金融工具，包括国内依法公开发行上
+市的中、小市值上市公司股票（包括存托凭证）、债券以及法律法规允许基金投资的其他金融工具。其中，投资重点是在流通市值占市场后 
+50%的上市公司中寻找具有高速成长潜力的中、小市值上市公司，投资于中、小市值上市公司的比例不少于基金股票部分的 
+80%。本基金投资于股票、债券的比例不低于基金资产总值的 80%。</p>
+                </div>
+            </div>
+            <div class="pd_detail_box mt40">
+                <div class="pd_detail_tit">
+                    <h3><i class="ic_01"></i>投资策略</h3>
+                </div>
+                <div class="detail_info">
+                    <p id="invest_strategy">在全面评估证券市场现阶段的系统性风险和预测证券市场中长期预期收益率并制订大类资产配置比例的基础上，本基金重点投资于预期利润或收入具有良好增长潜力的成长型上市公司的股票，从公司基本面分析入手挑选具有成长潜力的股票。具体策略包括资产配置、股票选择、债券选择。</p>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane" id="risk_info">
+            <div class="pd_detail_box">
+                <div class="pd_detail_tit">
+                    <h3><i class="ic_01"></i>风险提示函</h3>
+                </div>
+                <div class="detail_info">
+                    <p class="text_indent" id="risk_tips"><p>本基金不提供任何保证。投资者可能损失投资本金。
+投资有风险，投资者购买基金时应认真阅读本基金的《招募说明书》等销售文件。
+投资于本系列基金的风险主要包括：市场风险、信用风险、投资风险、流动性风险、管理风险、操作
+或技术风险、合规性风险、转换风险和其他风险。</p></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#Fund_Detail a:first').tab('show');//初始化显示哪个tab
+
+        $('#Fund_Detail a').click(function (e) {
+            e.preventDefault();//阻止a链接的跳转行为
+            $(this).tab('show');//显示当前选中的链接及关联的content
+        })
+    })
+</script>
+
+
+
+
+
+  </body>
+</html>
+

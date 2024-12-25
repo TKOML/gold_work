@@ -1,0 +1,56 @@
+@charset "utf-8";
+
+/* *
+ * 分页style
+ * 
+ */
+.page_footer a.current {
+	background: none repeat scroll 0 0 #f9a596;
+    border-radius: 3px;
+    color: #fff;
+    height: 20px;
+    line-height: 20px;/*当前页面下标页码显示的修改*/
+    margin-right: 5px;
+    text-align: center;
+}
+.page_footer a:hover {
+	text-decoration: underline;
+} 
+.page_footer {
+	text-align: center;
+	vertical-align: middle;
+}
+
+.page_footer a {
+	/* color: #458bff; */
+	display: inline-block;
+}
+
+.page_num {
+	margin: 0 3px;
+	padding: 0 3px;
+}
+.page_count_div {
+	display: inline;
+}
+
+.page_jump_txt {
+	border: 1px solid #E1E1E1;
+	font-size: 12px;
+    height: 16px;
+	line-height: 20px;
+	margin: 0 5px;
+	padding: 0 5px;
+	width: 40px;
+}
+
+.page_jump_btn {
+    border: 1px solid #E1E1E1;
+    color: #7F7F7F;
+    cursor: pointer;
+    font-size: 12px;
+    line-height: 15px;
+    margin-left: 10px;
+    padding: 1px;
+    position: relative;
+}

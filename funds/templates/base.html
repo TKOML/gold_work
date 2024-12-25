@@ -1,0 +1,262 @@
+{% load static %}
+<!DOCTYPE HTML>
+<html lang="zxx">
+
+<head>
+	<title>基金</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="utf-8">
+	<meta name="keywords" content="" />
+	<script>
+		addEventListener("load", function () {
+			setTimeout(hideURLbar, 0);
+		}, false);
+
+		function hideURLbar() {
+			window.scrollTo(0, 1);
+		}
+	</script>
+
+	<!-- Bootstrap Core CSS -->
+	<link href="{% static 'css/bootstrap.css' %}" rel='stylesheet' type='text/css' />
+	<link href="{% static 'css2/style.css' %}" rel='stylesheet' type='text/css' />
+	<link href="{% static 'css/style.css' %}" rel='stylesheet' type='text/css' />
+	<!-- pop up box -->
+	<link href="{% static 'css/popuo-box.css' %}" rel="stylesheet" type="text/css" media="all" />
+	<!-- font-awesome icons -->
+	<link href="{% static 'css/fontawesome-all.min.css' %}" rel="stylesheet">
+
+	<!-- //Custom Theme files -->
+	<!-- online fonts -->
+	<!-- titles -->
+	<link href="http://fonts.googleapis.com/css?family=Raleway:300,400,500,600,700,800,900" rel="stylesheet">
+	<!-- body -->
+	<link href="http://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800" rel="stylesheet">
+
+	<!-- 引入 Plotly.js -->
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+</head>
+
+<body>
+	
+	<!-- header -->
+	<header>
+		<div class="container">
+			<nav class="navbar navbar-expand-lg navbar-light">
+				<h1>
+					<a class="navbar-brand text-capitalize" href="index.html">
+						基金投资
+					</a>
+				</h1>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+				    aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav text-center  ml-lg-auto">
+						<li class="nav-item active  mr-3">
+							<a class="nav-link" href="{% url 'funds:index' %}">主页
+								<span class="sr-only">(current)</span>
+							</a>												
+						</li>
+						<li class="nav-item  mr-3">
+							<a class="nav-link" href="{% url 'myfunds:dashboard' %}">我的基金</a>
+						</li>
+						<li class="nav-item mr-3">
+							<a class="nav-link" href="{% url 'funds:fund_info' '000001' %}">基金详情</a>
+						</li>											
+						<li class="nav-item dropdown mr-3">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+							    aria-expanded="false">
+								基金分析
+							</a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<a class="dropdown-item" href="typography.html">基金评价</a>
+								<a class="dropdown-item" href="gallery.html">对比分析</a>
+							</div>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="{% url 'bill:zzbill' %}">关于我们</a>
+						</li>					
+					</ul>
+				</div>
+			</nav>
+            
+		</div>
+        {% block content %}
+        {% endblock %}
+	</header>
+	<!-- //header -->
+
+<!--footer-->
+	<footer>
+		<div class="container py-md-4 mt-md-3">
+			<div class="row footer-top-w3layouts-agile py-5">
+				<div class="col-lg-3 col-md-6 col-sm-6 footer-grid">
+					<div class="footer-title">
+						<h3>关于我们</h3>
+					</div>
+					<div class="footer-text">
+						<p>持续价值发现</p>
+
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6 col-sm-6 footer-grid">
+					<div class="footer-title">
+						<h3>联系我们</h3>
+					</div>
+					<div class="footer-office-hour">
+						<ul>
+							<li class="hd">地址 :</li>
+							<li>杭州师范大学</li>
+
+						</ul>
+						<ul>
+							<li class="hd">Phone:+ 1 (234) 567 8901</li>
+							<li class="hd">Email:
+								<a href="mailto:info@example.com">info@example.com</a>
+							</li>
+							<li class="hd">Fax: 1(234) 567 8901</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6 col-sm-6 footer-grid">
+					<div class="footer-title">
+						<h3>订阅</h3>
+					</div>
+					<p>请输入您的email地址.</p>
+					<form action="#" method="post" class="newsletter">
+						<input class="email" type="email" placeholder="您的 email..." required="">
+						<button class="btn1">
+							<i class="far fa-envelope"></i>
+						</button>
+					</form>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+		</div>
+	</footer>
+	<!---->
+	<div class="copyright py-3">
+		<div class="container">
+			<div class="copyrighttop">
+				<ul>
+					<li>
+						<h4>联系我们:</h4>
+					</li>
+					<li>
+						<a class="facebook" href="#">
+							<i class="fab fa-facebook-f"></i>
+						</a>
+					</li>
+					<li>
+						<a class="facebook" href="#">
+							<i class="fab fa-twitter"></i>
+						</a>
+					</li>
+					<li>
+						<a class="facebook" href="#">
+							<i class="fab fa-google-plus-g"></i>
+						</a>
+					</li>
+					<li>
+						<a class="facebook" href="#">
+							<i class="fab fa-pinterest-p"></i>
+						</a>
+					</li>
+				</ul>
+			</div>
+			<div class="copyrightbottom">
+				<p>Copyright &copy; 2024.<a href="http://localhost/" >黄金矿工.专业团队。基金网站</a>
+				</p>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+	<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">基金管理</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+		 <div class="agileits-w3layouts-info">
+			<img src="{% static 'images/g6.jpg' %}" class="img-fluid" alt="" />
+			<p>Duis venenatis, turpis eu bibendum porttitor, sapien quam ultricies tellus, ac rhoncus risus odio eget nunc. Pellentesque ac fermentum diam. Integer eu facilisis nunc, a iaculis felis. Pellentesque pellentesque tempor enim, in dapibus turpis porttitor quis. </p>
+		</div>
+	</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- //Modal -->
+<!-- js-->
+	<script src="{% static 'js/jquery-2.2.3.min.js' %}"></script>
+<!-- js-->
+<!-- Banner Responsiveslides -->
+	<script src="{% static 'js/responsiveslides.min.js' %}"></script>
+	<script>
+		// You can also use "$(window).load(function() {"
+		$(function () {
+			// Slideshow 4
+			$("#slider3").responsiveSlides({
+				auto: true,
+				pager: true,
+				nav: false,
+				speed: 500,
+				namespace: "callbacks",
+				before: function () {
+					$('.events').append("<li>before event fired.</li>");
+				},
+				after: function () {
+					$('.events').append("<li>after event fired.</li>");
+				}
+			});
+
+		});
+	</script>
+<!-- // Banner Responsiveslides -->
+<!-- stats -->
+	<script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
+	<script src="{% static 'js/jquery.countup.js' %}"></script>
+		<script>
+			$('.counter').countUp();
+		</script>
+<!-- //stats -->
+<!--pop-up-box -->
+	<script src="{% static 'js/jquery.magnific-popup.js' %}"></script>
+	<script>
+		$(document).ready(function () {
+			$('.popup-with-zoom-anim').magnificPopup({
+				type: 'inline',
+				fixedContentPos: false,
+				fixedBgPos: true,
+				overflowY: 'auto',
+				closeBtnInside: true,
+				preloader: false,
+				midClick: true,
+				removalDelay: 300,
+				mainClass: 'my-mfp-zoom-in'
+			});
+		});
+	</script>
+	<!-- //pop-up-box -->
+	<!-- Bootstrap Core JavaScript -->
+	<script src="{% static 'js/bootstrap.js' %} ">
+	</script>
+
+	<!-- //Bootstrap Core JavaScript -->
+    {% block script %}
+    {% endblock %}
+    
+</body>
+</html>

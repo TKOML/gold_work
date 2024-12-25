@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}基金管理系统登录{% endblock %}
+{% block content %}
+    <h1>登录</h1>
+    {% if form.errors %}
+        <p>
+        您的用户名和密码不正确.
+        请再试一次.
+        </p>
+    {% else %}
+        <p>请输入以下信息进行系统登录： </p>
+    {% endif %}
+    <div class="login-form">
+        <form method="post" action="{% url 'accounts:login' %}">
+            {{ form.username }}
+            {{ form.password }}
+            {% csrf_token %}
+            <p><input type="submit" value="登录"></p>
+            <input type="hidden" name="next" value="{{ next }}">
+
+            <p><a href="{% url 'accounts:password_reset' %}">忘记密码?</a></p>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,35 @@
+.zl-scrollBarBox {
+	height: 100%;
+	position: absolute;
+	z-index: 50;
+}
+
+.zl-scrollBar {
+	position: absolute;
+	left: 0;
+	top: 0;
+	background: #ddd;
+	transition: background .3s
+}
+
+.zl-scrollBar.zl-verticalBar {
+	min-height: 10px
+}
+
+.zl-scrollBar.zl-horizontalBar {
+	min-width: 10px
+}
+
+.zl-scrollBar:hover {
+	background: #ccc
+}
+
+.zl-scrollContentDiv {
+	position: relative !important;
+	width: 100% !important;
+	height: 100% !important;
+	padding: 0 !important;
+	margin: 0 !important;
+	top: 0;
+	left: 0
+}

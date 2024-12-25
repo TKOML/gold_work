@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>黄金矿工记账系统</title>
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap-3.4.1/css/bootstrap.min.css' %}">
+    <style>
+      .td{
+        width:100px;
+        overflow:hidden
+      }
+    </style>
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+
+    <div class="navbar-header">
+      <a class="navbar-brand" ><font size = 6>黄金矿工</font></a>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="/funds/index"><font size = 4>基金首页</font></a></li>
+        <li><a href="/bill/zzbill/outcome/list"><font size = 4>支出账单</font></a></li>
+        <li><a href="/bill/zzbill/income/list"><font size = 4>账单收入</font></a></li>
+        <li><a href="/bill/analysis"><font size = 4>统计与分析</font></a></li>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a>您好! {{ name }}</a></li>
+        <li><a href="/bill/login">退出登录</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div>
+      {% block content %}{% endblock %}
+</div>
+
+<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'plugins/bootstrap-3.4.1/js/bootstrap.min.js' %}"></script>
+
+
+{% block js %}{% endblock%}
+
+</body>
+</html>
