@@ -3,50 +3,172 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>黄金矿工记账系统</title>
     <link rel="stylesheet" href="{% static 'plugins/bootstrap-3.4.1/css/bootstrap.min.css' %}">
     <style>
-      .td{
-        width:100px;
-        overflow:hidden
-      }
-    </style>
+        body {
+            background-color: #f8f9fa;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
 
+        .navbar-custom {
+            background: linear-gradient(135deg, #ffd700, #f0b90b);
+            border: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .navbar-custom .navbar-brand,
+        .navbar-custom .navbar-nav > li > a {
+            color: #2c3e50;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-custom .navbar-brand {
+            font-weight: 700;
+            padding: 15px 25px;
+        }
+
+        .navbar-custom .navbar-nav > li > a:hover {
+            background-color: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .navbar-nav > li > a {
+            padding: 20px 25px;
+            font-weight: 500;
+        }
+
+        .content-wrapper {
+            padding: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin: 20px auto;
+            max-width: 1200px;
+        }
+
+        .user-dropdown {
+            padding: 10px 15px !important;
+        }
+
+        .user-dropdown .dropdown-menu {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .carousel-inner > .item > img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+
+        .carousel-caption {
+            background: rgba(0,0,0,0.5);
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .td {
+            width: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 768px) {
+            .navbar-nav > li > a {
+                padding: 15px;
+            }
+            .carousel-inner > .item > img {
+                height: 200px;
+            }
+        }
+    </style>
 </head>
 
 <body>
+    <nav class="navbar navbar-default navbar-custom">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-nav">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand">黄金矿工</a>
+            </div>
 
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="main-nav">
+                <ul class="nav navbar-nav">
+                    <li><a href="/funds/index">基金首页</a></li>
+                    <li><a href="/bill/zzbill/outcome/list">支出账单</a></li>
+                    <li><a href="/bill/zzbill/income/list">账单收入</a></li>
+                    <li><a href="/bill/analysis">统计与分析</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle user-dropdown" data-toggle="dropdown">
+                            您好! {{ name }} <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/bill/login">退出登录</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-    <div class="navbar-header">
-      <a class="navbar-brand" ><font size = 6>黄金矿工</font></a>
+    <!-- 轮播图 -->
+    <div id="mainCarousel" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#mainCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#mainCarousel" data-slide-to="1"></li>
+            <li data-target="#mainCarousel" data-slide-to="2"></li>
+        </ol>
+
+        <div class="carousel-inner">
+            <div class="item active">
+                <img src="{% static 'image/money.jpg' %}" alt="金融管理">
+                <div class="carousel-caption">
+                    <h3>智能财务管理</h3>
+                    <p>专业的财务分析工具，助您轻松管理资金</p>
+                </div>
+            </div>
+            <div class="item">
+                <img src="/api/placeholder/1200/400" alt="数据分析">
+                <div class="carousel-caption">
+                    <h3>数据可视化</h3>
+                    <p>清晰的数据展示，帮助您做出明智决策</p>
+                </div>
+            </div>
+            <div class="item">
+                <img src="/api/placeholder/1200/400" alt="资金追踪">
+                <div class="carousel-caption">
+                    <h3>实时资金追踪</h3>
+                    <p>随时掌握资金动向，科学管理收支</p>
+                </div>
+            </div>
+        </div>
+
+        <a class="left carousel-control" href="#mainCarousel" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+        </a>
+        <a class="right carousel-control" href="#mainCarousel" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
     </div>
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li><a href="/funds/index"><font size = 4>基金首页</font></a></li>
-        <li><a href="/bill/zzbill/outcome/list"><font size = 4>支出账单</font></a></li>
-        <li><a href="/bill/zzbill/income/list"><font size = 4>账单收入</font></a></li>
-        <li><a href="/bill/analysis"><font size = 4>统计与分析</font></a></li>
-        </li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a>您好! {{ name }}</a></li>
-        <li><a href="/bill/login">退出登录</a></li>
-      </ul>
+
+    <div class="container">
+        <div class="content-wrapper">
+            {% block content %}{% endblock %}
+        </div>
     </div>
-  </div>
-</nav>
 
-<div>
-      {% block content %}{% endblock %}
-</div>
-
-<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
-<script src="{% static 'plugins/bootstrap-3.4.1/js/bootstrap.min.js' %}"></script>
-
-
-{% block js %}{% endblock%}
-
+    <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap-3.4.1/js/bootstrap.min.js' %}"></script>
+    {% block js %}{% endblock %}
 </body>
 </html>

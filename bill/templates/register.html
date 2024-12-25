@@ -1,3 +1,48 @@
+<!--<!DOCTYPE html>-->
+<!--{% load static %}-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>黄金矿工记账系统</title>-->
+<!--    <link rel="stylesheet" href="{% static 'plugins/bootstrap-3.4.1/css/bootstrap.min.css' %}">-->
+<!--</head>-->
+<!--<body>-->
+<!--<body>-->
+
+<!--<br>-->
+<!--<br>-->
+<!--<br>-->
+<!--<br>-->
+
+<!--    <div class="container">-->
+<!--        <div class="panel panel-default">-->
+<!--            <div class="panel-heading">-->
+<!--                <h3 class="panel-title"> 用户注册 </h3>-->
+<!--            </div>-->
+<!--            <div class="panel-body">-->
+<!--                <form method="post" novalidate>-->
+<!--                    {% csrf_token %}-->
+
+<!--                    {% for field in form %}-->
+<!--                        <div class="form-group">-->
+<!--                            <label>{{ field.label }}</label>-->
+<!--                            {{ field }}-->
+<!--                            <span style="color: red;">{{ field.errors.0 }}</span>-->
+<!--                        </div>-->
+<!--                    {% endfor %}-->
+
+<!--                    <button type="submit" class="btn btn-primary">提 交</button>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+
+<!--<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>-->
+<!--<script src="{% static 'plugins/bootstrap-3.4.1/js/bootstrap.min.js' %}"></script>-->
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
@@ -5,40 +50,122 @@
     <meta charset="UTF-8">
     <title>黄金矿工记账系统</title>
     <link rel="stylesheet" href="{% static 'plugins/bootstrap-3.4.1/css/bootstrap.min.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7eac9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            padding-right: 0px;
+            padding-left: 0px;
+            display: flex;
+            width: 50%;
+            height: 600px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container, .image-container {
+            width: 50%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px 0 0 10px;
+        }
+
+        .form-container h2 {
+            margin-top: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+
+        .form-container .form-group {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .form-container label {
+            color: #333;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-container input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .form-container span {
+            color: red;
+            font-size: 12px;
+            display: block;
+            margin-top: 2px;
+        }
+
+        .form-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #ffcc66;
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+            border-radius: 9px;
+            font-size: 19px;
+            transition: background-color 0.3s;
+            margin-top: 15px;
+        }
+
+        .form-container button:hover {
+            background-color: #ffca6c;
+        }
+
+        .image-container {
+            background: url("{% static 'image/1.jpg' %}") no-repeat center center;
+            background-size: cover;
+        }
+    </style>
 </head>
 <body>
-<body>
-
-<br>
-<br>
-<br>
-<br>
-
     <div class="container">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title"> 用户注册 </h3>
-            </div>
-            <div class="panel-body">
-                <form method="post" novalidate>
-                    {% csrf_token %}
-
-                    {% for field in form %}
-                        <div class="form-group">
-                            <label>{{ field.label }}</label>
-                            {{ field }}
-                            <span style="color: red;">{{ field.errors.0 }}</span>
-                        </div>
-                    {% endfor %}
-
-                    <button type="submit" class="btn btn-primary">提 交</button>
-                </form>
-            </div>
+        <div class="form-container">
+            <h2>用户注册</h2>
+            <form method="post" novalidate>
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="form-group">
+                        <label>{{ field.label }}</label>
+                        {{ field }}
+                        <span>{{ field.errors.0 }}</span>
+                    </div>
+                {% endfor %}
+                <div style="text-align: center">
+                    <button type="submit">注册账户</button>
+                </div>
+            </form>
+        </div>
+        <div class="image-container">
         </div>
     </div>
 
-
-<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
-<script src="{% static 'plugins/bootstrap-3.4.1/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap-3.4.1/js/bootstrap.min.js' %}"></script>
 </body>
 </html>

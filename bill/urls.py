@@ -4,9 +4,9 @@ from . import views
 app_name = 'bill'
 
 urlpatterns = [
-    path('login/', views.login, name='login'),
+    path('login', views.login, name='login'),
     path('zzbill/', views.zzbill, name='zzbill'),
-    path('register/', views.register, name='register'),
+    path('register', views.register, name='register'),
 
     # 支出账单管理
     path('zzbill/outcome/list/', views.outcome_list, name='outcome_list'),
