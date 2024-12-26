@@ -6,14 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>黄金矿工记账系统</title>
     <link rel="stylesheet" href="{% static 'plugins/bootstrap-3.4.1/css/bootstrap.min.css' %}">
-    <style>
+     <style>
         body {
             background-color: #f8f9fa;
             font-family: "Microsoft YaHei", sans-serif;
         }
 
         .navbar-custom {
-            background: rgba(255, 215, 0); /* 半透明金色 */
+            background: #FFC807; /* 半透明金色 */
             backdrop-filter: blur(10px); /* 模糊背景 */
             border: none;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -27,7 +27,7 @@
 
         .navbar-custom .navbar-brand,
         .navbar-custom .navbar-nav > li > a {
-            margin-left: -10px;
+            margin-left: -30px;
             color: #FFFFFF;
             transition: all 0.3s ease;
         }
@@ -324,18 +324,21 @@
 
         <div class="collapse navbar-collapse" id="main-nav">
             <ul class="nav navbar-nav">
-                <li><a href="/funds/index">基金首页</a></li>
-                <li><a href="/bill/zzbill/index">记账系统首页</a></li>
-                <li><a href="/bill/zzbill/outcome/list">支出账单</a></li>
-                <li><a href="/bill/zzbill/income/list">账单收入</a></li>
-                <li><a href="/bill/analysis">统计与分析</a></li>
+                <li><a href="{% url 'bill:index' %}">首页</a></li>
+                <li><a href="/funds/index">基金</a></li>
+                 <!-- 假设这是相同的index页面 -->
+                <li><a href="{% url 'bill:outcome_list' %}">支出账单</a></li>
+                <li><a href="{% url 'bill:income_list' %}">账单收入</a></li>
+                <li><a href="{% url 'bill:analysis' %}">统计分析</a></li>
+                <li><a href="{% url 'bill:ai_chat' %}">AI助手</a></li>
+                <li><a href="{% url 'bill:virtual_world' %}">虚拟世界</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        您好! {{ name|default:"游客" }} <span class="caret"></span>
+                        我的 <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="/bill/zzbill/profile">个人中心</a></li>
-                        <li><a href="/bill/login">退出登录</a></li>
+                       <li><a href="{% url 'bill:profile' %}">个人中心</a></li>
+                        <li><a href="{% url 'bill:login' %}">退出登录</a></li>
                     </ul>
                 </li>
             </ul>

@@ -1,10 +1,10 @@
 {% extends 'zzbill.html' %}
 
 {% block content %}
-<div>
+<div style="margin-top: 60px;">
     <div class="container">
         <div style="margin-bottom: 10px">
-            <a class="btn btn-success" href="add">
+            <a class="btn btn-success" href="{% url 'bill:outcome_add' %}">
                 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                 新增支出
             </a>
@@ -49,8 +49,8 @@
                         <td>{{ obj.money_out }}</td>
                         <td>{{ obj.notes_out }}</td>
                         <td>
-                            <a class="btn btn-primary btn-xs" href="/bill/zzbill/outcome/{{ obj.id }}/edit">编辑</a>
-                            <a class="btn btn-danger btn-xs" href="/bill/zzbill/outcome/{{ obj.id }}/delete" >删除</a>
+                            <a class="btn btn-primary btn-xs" href="{% url 'bill:outcome_edit' nid=obj.id %}">编辑</a>
+                            <a class="btn btn-danger btn-xs" href="{% url 'bill:outcome_delete' nid=obj.id %}">删除</a>
                     </tr>
                 {% endfor %}
                 </tbody>

@@ -12,6 +12,7 @@ class UserImformation(models.Model):
         (2, "女"),
     )
     gender = models.SmallIntegerField(verbose_name="性别", choices=gender_choices)
+     # 添加邮箱字段
 
 
 class BillOutcome(models.Model):  # 支出表

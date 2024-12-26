@@ -1,0 +1,291 @@
+{% extends 'zzbill.html' %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>页面布局</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+
+            color: #333;
+        }
+
+        .container {
+
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px 20px 0px 20px;
+            box-sizing: border-box;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .card {
+            position: relative;
+            flex: 1 1 calc(30% - 20px);
+            max-width: 348px;
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+
+            background-color: #fff;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            /*box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);*/
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+        }
+
+        .card-title {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            font-size: 25px;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            font-weight: 500;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .table th, .table td {
+            padding: 12px 15px;
+            text-align: left;
+        }
+
+        .table th {
+            background-color: #343a40;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .table tr:hover {
+            background-color: #e9ecef;
+        }
+
+        .img-fluid {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #343a40;
+            color: #fff;
+            border-radius: 10px;
+        }
+
+        .content-wrapper {
+            background-color: #fff;
+        }
+
+        footer.footer {
+            margin: 0px;
+        }
+
+        .container.text-center {
+            padding: 0px;
+        }
+        .card-title {
+            border-top: 1px solid #00000042;
+        }
+        .content-wrapper {
+            margin-bottom: 0px;
+            padding-bottom: 0px;
+        }
+    </style>
+</head>
+<body style="background-color: #fff;">
+
+<!-- 顶部卡片 -->
+<div class="container">
+    <div class="row">
+        <div class="card">
+            <img src="{% static 'image/mubiao.jpg' %}" alt="每日目标" >
+            <div class="card-title"><a style="color: #fff" href="{% url 'bill:day_goal' %}">每日目标</a></div>
+
+        </div>
+        <div class="card">
+            <img src="{% static 'image/shengwuzhuangtai.jpg' %}" alt="生物状态">
+            <div class="card-title"><a style="color: #fff" href="{% url 'bill:status' %}">生物状态</a></div>
+        </div>
+        <div class="card">
+            <img src="{% static 'image/jinzi2.jpg' %}" alt="货币余额">
+            <div class="card-title"><a  style="color: #fff" href="{% url 'bill:money' %}">货币余额</a></div>
+        </div>
+    </div>
+</div>
+
+<!-- 排行榜表格 -->
+<!--<div class="container">-->
+<!--    <div class="card">-->
+<!--        <table class="table">-->
+<!--            <thead>-->
+<!--            <tr>-->
+<!--                <th>排名</th>-->
+<!--                <th>用户信息</th>-->
+<!--                <th>货币</th>-->
+<!--                <th>状态</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--            <tr>-->
+<!--                <td>1</td>-->
+<!--                <td>凯文 (Kaiwen)</td>-->
+<!--                <td>60045</td>-->
+<!--                <td>饥饿</td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--                <td>2</td>-->
+<!--                <td>若琳 (Ruolin)</td>-->
+<!--                <td>50100</td>-->
+<!--                <td>饱腹</td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--                <td>3</td>-->
+<!--                <td>浩宇 (Haoyu)</td>-->
+<!--                <td>42326</td>-->
+<!--                <td>开心</td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--                <td>4</td>-->
+<!--                <td>欣怡 (Xinyi)</td>-->
+<!--                <td>35654</td>-->
+<!--                <td>难过</td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--                <td>5</td>-->
+<!--                <td>子轩 (Zixuan)</td>-->
+<!--                <td>25554</td>-->
+<!--                <td>饱腹</td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--                <td>6</td>-->
+<!--                <td>乐瑶 (Leyao)</td>-->
+<!--                <td>15656</td>-->
+<!--                <td>难过</td>-->
+<!--            </tr>-->
+<!--            </tbody>-->
+<!--        </table>-->
+
+<!--        &lt;!&ndash; 中间猫咪和金币部分 &ndash;&gt;-->
+<!--        <div class="container text-center">-->
+<!--            <img src="{% static 'image/congwu.png' %}" class="img-fluid" alt="猫咪">-->
+<!--        </div>-->
+
+<!--    </div>-->
+<!--</div>-->
+
+
+<!-- 排行榜表格 -->
+<div class="container" style="display: flex; justify-content: space-between; align-items: flex-start; gap: 20px;">
+    <!-- 左侧表格 -->
+    <div class="card" style="flex: 1;">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>排名</th>
+                <th>用户信息</th>
+                <th>货币</th>
+                <th>状态</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>1</td>
+                <td>凯文 (Kaiwen)</td>
+                <td>60045</td>
+                <td>饥饿</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>若琳 (Ruolin)</td>
+                <td>50100</td>
+                <td>饱腹</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>浩宇 (Haoyu)</td>
+                <td>42326</td>
+                <td>开心</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>欣怡 (Xinyi)</td>
+                <td>35654</td>
+                <td>难过</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>子轩 (Zixuan)</td>
+                <td>25554</td>
+                <td>饱腹</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>乐瑶 (Leyao)</td>
+                <td>15656</td>
+                <td>难过</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 右侧猫咪图片 -->
+    <div class="container text-center" style="flex: 0 0 555px;">
+        <img src="{% static 'image/congwu.png' %}" class="img-fluid" alt="猫咪">
+    </div>
+</div>
+
+
+
+<!-- 漫画页尾 -->
+<div class="container text-center">
+    <img src="{% static 'image/meet.jpg' %}" class="img-fluid" alt="漫画">
+</div>
+
+</body>
+</html>
+
+{% endblock %}

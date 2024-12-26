@@ -1,6 +1,9 @@
 import datetime
 import json
-
+import os
+from django.shortcuts import render
+from django.http import JsonResponse
+from openai import OpenAI
 from django.shortcuts import render, redirect,HttpResponse,get_object_or_404
 from django.contrib import messages  # 确保这一行存在
 from django import forms
@@ -11,7 +14,89 @@ from django.http import JsonResponse
 
 from .models import UserImformation
 
+def virtual_world(request):
+    return render(request, 'virtual_world.html')
 
+
+import os
+import json
+from django.http import JsonResponse
+from django.shortcuts import render
+from openai import OpenAI  # 假设您使用的是OpenAI库来与通义千问API交互
+from django.core.cache import cache  # 使用Django缓存来保存对话上下文
+
+
+def ai_chat(request):
+    info_dict = request.session.get("info", {})
+    name = info_dict.get('name', '游客')
+
+    system_message = (
+        "你是一位专业的记账小助手，专注于帮助用户管理和优化个人财务管理。"
+        "你的任务包括但不限于解答有关记账、预算编制、储蓄计划、投资理财等方面的问题。"
+        "你应该用清晰易懂的语言解释复杂的金融术语，并根据用户的实际情况给出个性化的建议。"
+        "始终保持友好、耐心的态度，尊重用户隐私，只在用户明确询问时才提供具体的投资产品推荐。"
+    )
+
+    user_id = request.session.session_key or ''  # 获取当前用户的唯一标识符
+
+    if request.method == 'POST':
+        try:
+            message = request.POST.get('message', '').strip()
+            if not message:
+                return JsonResponse({
+                    'success': False,
+                    'error': '请输入有效的消息内容'
+                })
+
+            # 获取并更新对话上下文
+            conversation_history = cache.get(user_id, [])
+            conversation_history.append({'role': 'user', 'content': message})
+
+            # 添加系统消息到对话历史中
+            if len(conversation_history) == 1:  # 只在第一次对话时添加系统消息
+                conversation_history.insert(0, {'role': 'system', 'content': system_message})
+
+            client = OpenAI(
+                api_key=os.getenv("DASHSCOPE_API_KEY"),
+                base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
+            )
+
+            completion = client.chat.completions.create(
+                model="qwen-plus",
+                messages=conversation_history
+            )
+
+            response_content = completion.choices[0].message.content.strip()
+            conversation_history.append({'role': 'assistant', 'content': response_content})
+
+            # 更新缓存中的对话历史
+            cache.set(user_id, conversation_history, timeout=None)
+
+            return JsonResponse({
+                'success': True,
+                'response': response_content
+            })
+
+        except Exception as e:
+            return JsonResponse({
+                'success': False,
+                'error': f"请求失败: {str(e)}"
+            })
+
+    # 渲染页面时，清除对话历史以确保每次打开聊天都是新的会话
+    cache.delete(user_id)
+
+    return render(request, 'ai_chat.html', {"name": name})
+
+
+# 可选：添加一个视图用于清除特定用户的对话历史
+def clear_conversation(request):
+    user_id = request.session.session_key or ''
+    cache.delete(user_id)
+    return JsonResponse({
+        'success': True,
+        'message': '对话历史已清除'
+    })
 class UserModelForm(forms.ModelForm):
     confirm_password = forms.CharField(label="确认密码", widget=forms.PasswordInput(render_value=True))
 
@@ -87,7 +172,7 @@ def login(request):
         request.session["info"] = {'name': user_object.name}
         request.session.set_expiry(60*60)
 
-        return redirect("/bill/zzbill")
+        return redirect("bill:index")
         # error = "用户名或者密码错误!"
         # return render(request, 'login.html', {"error": error})
 
@@ -107,7 +192,7 @@ def register(request):
     form = UserModelForm(data=request.POST)
     if form.is_valid():
         form.save()
-        return redirect('/bill/login')
+        return redirect('bill:login')
 
     return render(request, 'register.html', {'form': form})
 
@@ -162,7 +247,7 @@ def outcome_add(request):
         name = info_dict.get('name')
         form.instance.belong_out = name  # instance方法添加额外数据.字段名 = 数据
         form.save()
-        return redirect('/bill/zzbill/outcome/list')
+        return redirect('bill:outcome_list')
     return render(request, 'outcome_add.html', {"form": form})
 
 
@@ -174,13 +259,13 @@ def outcome_edit(request, nid):
     form = OutcomeModelForm(data=request.POST, instance=row)
     if form.is_valid():
         form.save()
-        return redirect('/bill/zzbill/outcome/list')
+        return redirect('bill:outcome_list')
     return render(request, 'outcome_edit.html')
 
 
 def outcome_delete(request, nid):
     models.BillOutcome.objects.filter(id=nid).delete()
-    return redirect('/bill/zzbill/outcome/list')
+    return redirect('bill:outcome_list')
 
 
 def income_list(request):
@@ -229,7 +314,7 @@ def income_add(request):
         name = info_dict.get('name')
         form.instance.belong_in = name  # instance方法添加额外数据.字段名 = 数据
         form.save()
-        return redirect('/bill/zzbill/income/list')
+        return redirect('bill:income_list')
     return render(request, 'income_add.html', {"form": form})
 
 
@@ -241,13 +326,13 @@ def income_edit(request, nid):
     form = IncomeModelForm(data=request.POST, instance=row)
     if form.is_valid():
         form.save()
-        return redirect('/bill/zzbill/income/list')
+        return redirect('bill:income_list')
     return render(request, 'income_edit.html')
 
 
 def income_delete(request, nid):
     models.BillIncome.objects.filter(id=nid).delete()
-    return redirect('/bill/zzbill/income/list')
+    return redirect('bill:income_list')
 
 
 def index(request):
@@ -263,7 +348,7 @@ def profile(request):
         user_info = UserImformation.objects.get(name=request.session["info"]["name"])
     except UserImformation.DoesNotExist:
         # 如果没有找到用户信息，重定向到登录页面或给出提示
-        return redirect('/bill/login')
+        return redirect('bill:login')
 
     context = {
         'user_info': user_info,
@@ -440,6 +525,40 @@ def pie(request):
 
 def text(request, a=" "):
     return render(request, 'text.html')
+# def delete_profile(request):
+#     # 检查是否存在 session 信息
+#     if not request.session.get("info"):
+#         messages.error(request, "未登录或会话已过期，请重新登录。")
+#         return redirect('bill:login')
+#
+#     try:
+#         # 检查用户是否存在
+#         user_info = UserImformation.objects.filter(name=request.session["info"]["name"]).first()
+#         if not user_info:
+#             messages.error(request, "未找到对应的用户信息。")
+#             return redirect('bill:profile')
+#
+#         # 删除用户信息
+#         if request.method == "POST":
+#             user_info.delete()
+#             request.session.flush()  # 清除 session
+#             messages.success(request, "您的账户已成功注销。")
+#             return redirect('bill:index')
+#     except Exception as e:
+#         messages.error(request, f"发生错误：{str(e)}")
+#         return redirect('bill:profile')
+#
+#     return redirect('bill:profile')
+
+def money(request):
+    return render(request, 'money.html')
+def status(request):
+    return render(request, 'status.html')
+def day_goal(request):
+    return render(request, 'day_goal.html')
+# bill/views.py
 
 
+def redirect_to_funds_index(request):
+    return redirect('funds:index')
 
