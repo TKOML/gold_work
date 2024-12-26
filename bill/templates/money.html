@@ -1,0 +1,174 @@
+{% extends 'zzbill.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>每日目标完成情况</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            margin-top: 50px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-top: 20px;
+        }
+        .table-container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table thead {
+            background-color: #4CAF50;
+            color: white;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        table tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+        th {
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        .pagination {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        .pagination button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .pagination button:hover {
+            background-color: #45a049;
+        }
+        .pagination button.disabled {
+            background-color: #dddddd;
+            cursor: not-allowed;
+        }
+        .pagination span {
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+<h2>分页表格示例</h2>
+<div class="table-container">
+    <table id="dataTable">
+        <thead>
+        <tr>
+            <th>日期</th>
+            <th>预计>=实际</th>
+<!--            <th>预期支出</th>-->
+<!--            <th>实际支出</th>-->
+        </tr>
+        </thead>
+        <tbody>
+        <!-- 数据行将通过JavaScript动态插入 -->
+        </tbody>
+    </table>
+</div>
+<div class="pagination">
+    <button onclick="previousPage()">Previous</button>
+    <span id="pageInfo"></span>
+    <button onclick="nextPage()">Next</button>
+</div>
+
+<script>
+    const itemsPerPage = 5;
+    let currentPage = 1;
+
+    // 示例数据
+    const data = [
+        { id: '2024-12-01', name: '目标已达成，奖励虚拟货币10', country: '100',yuqi:'50'},
+        { id: '2024-12-09', name: '目标已达成，奖励虚拟货币10', country: '70',yuqi:'50'},
+        { id: '2024-12-24', name: '目标已达成，奖励虚拟货币10', country: '50',yuqi:'50'},
+        { id: '2024-11-09', name: '目标未达成，没有获得奖励哦~明天请继续加油~', country: '30',yuqi:'50'},
+        { id: '2024-11-25', name: '目标已达成，奖励虚拟货币10', country: '100',yuqi:'50'},
+        { id: '2024-11-27', name: '目标已达成，奖励虚拟货币10', country: '100',yuqi:'50'},
+        { id: '2024-10-09', name: '目标已达成，奖励虚拟货币10', country: '100',yuqi:'50'},
+        { id: '2024-10-01', name: '目标已达成，奖励虚拟货币10', country: '100',yuqi:'50'},
+        { id: '2024-09-10', name: '目标已达成，奖励虚拟货币10', country: '100',yuqi:'50'},
+        { id: '2024-09-17', name: '目标已达成，奖励虚拟货币10', country: '100',yuqi:'50'},
+        { id: '2024-08-01', name: '目标已达成，奖励虚拟货币10', country: '100',yuqi:'50'},
+        { id: '2024-08-19', name: '目标已达成，奖励虚拟货币10', country: '100',yuqi:'50'},
+
+    ];
+
+    function renderTable(page) {
+        const tableBody = document.querySelector('#dataTable tbody');
+        tableBody.innerHTML = ''; // 清空当前内容
+
+        const start = (page - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+        const pageItems = data.slice(start, end);
+
+        pageItems.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `<td>${item.id}</td><td>${item.name}</td>`;
+            tableBody.appendChild(row);
+        });
+
+        updatePagination();
+    }
+
+    function updatePagination() {
+        const totalPages = Math.ceil(data.length / itemsPerPage);
+        document.getElementById('pageInfo').textContent = `Page ${currentPage} of ${totalPages}`;
+
+        const prevButton = document.querySelector('.pagination button:first-child');
+        const nextButton = document.querySelector('.pagination button:last-child');
+
+        prevButton.classList.toggle('disabled', currentPage === 1);
+        nextButton.classList.toggle('disabled', currentPage === totalPages);
+    }
+
+    function nextPage() {
+        if (currentPage < Math.ceil(data.length / itemsPerPage)) {
+            currentPage++;
+            renderTable(currentPage);
+        }
+    }
+
+    function previousPage() {
+        if (currentPage > 1) {
+            currentPage--;
+            renderTable(currentPage);
+        }
+    }
+
+    // 初始化渲染第一页
+    renderTable(currentPage);
+</script>
+
+</body>
+</html>
+
+{% endblock %}
