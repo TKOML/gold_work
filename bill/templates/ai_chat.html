@@ -1,0 +1,170 @@
+{% extends 'zzbill.html' %}
+
+{% block content %}
+<style>
+    /* 优化整体布局和样式 */
+    .content-wrapper {
+        padding-top: 80px;
+    }
+
+    /* 优化聊天框样式 */
+    #chat-box {
+        height: 500px;
+        overflow-y: auto;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        background: #fffceb;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    /* 优化消息气泡样式 */
+    .message {
+        display: flex;
+        max-width: 70%;
+        padding: 10px 15px;
+        border-radius: 12px;
+        font-size: 14px;
+        line-height: 1.5;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        word-wrap: break-word;
+    }
+    .message.user {
+        align-self: flex-end;
+        background-color: #ffcc66; /* 更改颜色 */
+        color: #333;
+    }
+    .message.assistant {
+        align-self: flex-start;
+        background-color: #ffffff; /* 更改颜色 */
+        color: #333;
+    }
+    .message.error {
+        align-self: center;
+        background-color: #ffe4e4;
+        color: #d32f2f;
+    }
+
+    /* 优化表单样式 */
+    #chat-form {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+    }
+    #chat-form input[type="text"] {
+        flex-grow: 1;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 14px;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        outline: none;
+        background: #fffceb;
+        transition: border-color 0.3s;
+    }
+    #chat-form input[type="text"]:focus {
+        border-color: #007bff;
+    }
+    #chat-form button {
+        padding: 12px 20px;
+        background-color: #ffcc66; /* 更改颜色 */
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    #chat-form button:hover {
+        background-color: darken(#ffcc66, 10%); /* 深化颜色 */
+    }
+
+    /* 用户信息样式 */
+    .user-info {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .user-info h3 {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #333;
+        margin: 0;
+    }
+    .user-info p {
+        font-size: 0.9rem;
+        color: #666;
+    }
+
+    /* 适配移动端 */
+    @media (max-width: 768px) {
+        #chat-box {
+            height: 400px;
+        }
+        .message {
+            font-size: 13px;
+        }
+        #chat-form button {
+            padding: 10px 16px;
+        }
+    }
+</style>
+
+<div class="container mx-auto p-4 content-wrapper" >
+    <div class="max-w-2xl mx-auto">
+        <!-- 用户信息 -->
+<!--        <div class="user-info">-->
+<!--            <h3>记账小助手</h3>-->
+<!--            <p>当前用户: {{ name }}</p>-->
+<!--        </div>-->
+        <p style="font-size:20px">当前用户: {{ name }}</p>
+        <div id="chat-box"></div>
+        <form id="chat-form">
+            <input type="text" id="user-input" placeholder="请输入您的消息...">
+            <button type="submit">发送</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.getElementById('chat-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const input = document.getElementById('user-input');
+        const message = input.value.trim();
+        if (!message) return;
+
+        appendMessage('user', message);
+        input.value = '';
+
+        try {
+            const response = await fetch('/bill/ai_chat/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: `message=${encodeURIComponent(message)}`
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                appendMessage('assistant', data.response);
+            } else {
+                appendMessage('error', '错误: ' + data.error);
+            }
+        } catch (error) {
+            appendMessage('error', '请求失败: ' + error.message);
+        }
+    });
+
+    function appendMessage(role, content) {
+        const chatBox = document.getElementById('chat-box');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${role}`;
+        messageDiv.innerHTML = `<span>${content}</span>`;
+        chatBox.appendChild(messageDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+</script>
+{% endblock %}
