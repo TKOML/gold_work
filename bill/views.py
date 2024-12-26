@@ -1,12 +1,15 @@
 import datetime
 import json
 
-from django.shortcuts import render, redirect,HttpResponse
+from django.shortcuts import render, redirect,HttpResponse,get_object_or_404
+from django.contrib import messages  # 确保这一行存在
 from django import forms
 from django.core.exceptions import ValidationError
 from bill import models
 from bill.utils.page import Pagination
 from django.http import JsonResponse
+
+from .models import UserImformation
 
 
 class UserModelForm(forms.ModelForm):
@@ -245,6 +248,48 @@ def income_edit(request, nid):
 def income_delete(request, nid):
     models.BillIncome.objects.filter(id=nid).delete()
     return redirect('/bill/zzbill/income/list')
+
+
+def index(request):
+    # 假设你有一个用户的名字或者其他动态信息
+    context = {
+        'name': '用户',
+    }
+    return render(request, 'index.html', context)
+
+def profile(request):
+    try:
+        # 获取当前登录用户的详细信息
+        user_info = UserImformation.objects.get(name=request.session["info"]["name"])
+    except UserImformation.DoesNotExist:
+        # 如果没有找到用户信息，重定向到登录页面或给出提示
+        return redirect('/bill/login')
+
+    context = {
+        'user_info': user_info,
+        'is_authenticated': request.user.is_authenticated,
+    }
+    return render(request, 'profile.html', context)
+
+def update_profile(request):
+    try:
+        user_info = get_object_or_404(UserImformation, name=request.session["info"]["name"])
+    except KeyError:
+        return redirect('login')
+
+    if request.method == 'POST':
+        form = UserModelForm(request.POST, instance=user_info)
+        if form.is_valid():
+            form.save()
+            messages.success(request, '您的个人信息已成功更新！')
+            return redirect('bill:profile')
+        else:
+            messages.error(request, '请检查输入的信息是否正确。')
+            return render(request, 'profile.html', {'form': form, 'user_info': user_info})
+    else:
+        form = UserModelForm(instance=user_info)
+
+    return render(request, 'profile.html', {'form': form, 'user_info': user_info})
 
 
 def analysis(request):

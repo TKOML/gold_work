@@ -13,37 +13,56 @@
         }
         
         .navbar-custom {
-            background: linear-gradient(135deg, #ffd700, #f0b90b);
+            background: rgba(255, 215, 0); /* 半透明金色 */
+            backdrop-filter: blur(10px); /* 模糊背景 */
             border: none;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: fixed; /* 固定在顶部 */
+            height: 90px;
+            top: 0;
+            width: 100%;
+            z-index: 1030;
         }
 
         .navbar-custom .navbar-brand,
         .navbar-custom .navbar-nav > li > a {
-            color: #2c3e50;
+            margin-left: -10px;
+            color: #FFFFFF;
             transition: all 0.3s ease;
         }
 
         .navbar-custom .navbar-brand {
+            padding: 30px 35px;
             font-weight: 700;
-            padding: 15px 25px;
+            font-size: 28px;
+            color: #FFFFFF;
         }
 
-        .navbar-custom .navbar-nav > li > a:hover {
-            background-color: rgba(255,255,255,0.2);
-            transform: translateY(-2px);
+        .navbar-custom .navbar-brand:hover {
+            font-weight: 700;
+            font-size: 28px;
+            color: #FFFFFF;
         }
+
 
         .navbar-nav > li > a {
-            padding: 20px 25px;
+            padding: 30px 35px;
             font-weight: 500;
+            font-size: 20px;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .navbar-custom .navbar-nav > li > a:hover,
+        .navbar-custom .navbar-nav > li.active > a {
+            color: #f39c12;
+            font-weight: 700;
+            font-size: 25px;
+            transform: translateY(-2px);
         }
 
         .content-wrapper {
             padding: 30px;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
             margin: 20px auto;
             max-width: 1200px;
         }
@@ -77,6 +96,221 @@
             white-space: nowrap;
         }
 
+        .dropdown-menu {
+            top: 100%; /* 紧贴父级菜单项 */
+            left: 0;
+            background: linear-gradient(135deg, #ffd700, #f9c802); /* 添加渐变背景 */
+            border-radius: 12px; /* 圆角更柔和 */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* 增加柔和阴影 */
+            padding: 10px 0; /* 上下内边距 */
+            z-index: 1050; /* 确保菜单在其他内容之上 */
+            overflow: hidden; /* 防止溢出 */
+            transition: transform 0.3s ease, opacity 0.3s ease; /* 添加动画效果 */
+            transform: translateY(-10px); /* 初始位置稍微向上 */
+            opacity: 0; /* 初始不可见 */
+            visibility: hidden; /* 初始隐藏 */
+            color: #fff;
+        }
+
+        .dropdown:hover .dropdown-menu,
+        .dropdown:focus-within .dropdown-menu {
+            transform: translateY(0); /* 悬停时归位 */
+            opacity: 1; /* 完全可见 */
+            visibility: visible; /* 显示菜单 */
+            color: #fff;
+        }
+
+        .dropdown-menu > li > a {
+            color: #fff;
+            font-size: 16px;
+            font-weight: 500;
+            padding: 8px 20px; /* 增加内边距 */
+            text-decoration: none; /* 移除下划线 */
+            display: block;
+            transition: all 0.3s ease; /* 添加渐变动画 */
+        }
+
+        .dropdown-menu > li > a:hover,
+        .dropdown-menu > li > a:focus {
+            color: #fff; /* 悬停时文字颜色 */
+            background: linear-gradient(135deg, #ffd700, #f9c802);
+            transform: scale(1.05); /* 悬停时放大 */
+            text-decoration: none; /* 保持无下划线 */
+        }
+
+        .dropdown-toggle {
+            color: #fff; /* 默认文字颜色 */
+            font-size: 18px; /* 字体大小 */
+            font-weight: 600; /* 字体加粗 */
+            text-decoration: none; /* 移除下划线 */
+            padding: 10px 15px; /* 增加内边距 */
+            transition: all 0.3s ease; /* 平滑过渡效果 */
+            background: linear-gradient(135deg, #ffd700, #f9c802);
+        }
+
+        .dropdown-toggle:hover,
+        .dropdown-toggle:focus {
+            color: #fff; /* 悬停和聚焦时文字颜色 */
+            background: linear-gradient(135deg, #ffd700, #f9c802); /* 渐变背景 */
+            text-decoration: none; /* 保持无下划线 */
+            transform: translateY(-2px); /* 悬停时轻微上移 */
+        }
+
+        .home-section {
+            margin-top: 5%;
+            height: 300px;
+            padding: 100px 50px;
+            background-color: #f4f4f4;
+            color: #F9C802FF;
+            text-align: center;
+        }
+
+        .home-btn {
+            background-color: rgba(255, 215, 0);
+            border: none;
+            padding: 10px 20px;
+        }
+
+        .promo-section {
+            margin: 50px 0;
+        }
+
+        .promo-banner {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .promo-banner.reverse {
+            flex-direction: row-reverse;
+        }
+
+        .image-wrapper {
+            flex: 1;
+            text-align: center;
+        }
+
+        .image-wrapper img {
+            max-width: 90%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .text-box {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .text-box h2 {
+            color: rgba(255, 215, 0);
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+
+        .text-box p {
+            font-size: 1.2em;
+            color: #555;
+        }
+
+        .features-section {
+            padding: 50px 20px;
+            background-color: #f9f9f9;
+            text-align: center;
+        }
+
+        .features-title {
+            font-size: 2em;
+            color: rgba(255, 215, 0);
+            margin-bottom: 30px;
+        }
+
+        .features-grid {
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .feature-item {
+            text-align: center;
+            max-width: 300px;
+        }
+
+        .feature-item img {
+            max-width: 100px;
+            margin-bottom: 10px;
+        }
+
+        .feature-item h3 {
+            font-size: 1.5em;
+            color: rgba(255, 215, 0);
+            margin-bottom: 10px;
+        }
+
+        .feature-item p {
+            font-size: 1em;
+            color: #555;
+        }
+
+        .footer {
+            background-color: #F9C802FF ;
+            padding: 20px;
+            border-top: 1px solid #e9ecef;
+            margin-top: 6%;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .footer-content > div {
+            flex: 1;
+            margin: 10px;
+        }
+
+        .footer-content h4 {
+            margin-bottom: 10px;
+            color: rgb(250, 250, 250);
+            font-weight: bold;
+        }
+
+        .footer-content p, .footer-content ul, .footer-content form {
+            margin: 0;
+            padding: 0;
+        }
+
+        .footer-content ul {
+            list-style: none;
+        }
+
+        .footer-content ul li {
+            margin-bottom: 5px;
+        }
+
+        .footer-content a {
+            color: #fdfeff;
+            text-decoration: none;
+            margin: 0 5px;
+        }
+
+        .footer-content a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #ffffff;
+        }
+
+        .fcolor{
+            color: #e9eeee;
+        }
+
+
         @media (max-width: 768px) {
             .navbar-nav > li > a {
                 padding: 15px;
@@ -89,83 +323,121 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-default navbar-custom">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-nav">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand">黄金矿工</a>
-            </div>
-            
-            <div class="collapse navbar-collapse" id="main-nav">
-                <ul class="nav navbar-nav">
-                    <li><a href="/funds/index">基金首页</a></li>
-                    <li><a href="/bill/zzbill/outcome/list">支出账单</a></li>
-                    <li><a href="/bill/zzbill/income/list">账单收入</a></li>
-                    <li><a href="/bill/analysis">统计与分析</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle user-dropdown" data-toggle="dropdown">
-                            您好! {{ name }} <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="/bill/login">退出登录</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
+<nav class="navbar navbar-default navbar-custom">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-nav">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand">黄金矿工</a>
         </div>
-    </nav>
+
+        <div class="collapse navbar-collapse" id="main-nav">
+            <ul class="nav navbar-nav">
+                <li><a href="/funds/index">基金首页</a></li>
+                <li><a href="/bill/zzbill/index">记账系统首页</a></li>
+                <li><a href="/bill/zzbill/outcome/list">支出账单</a></li>
+                <li><a href="/bill/zzbill/income/list">账单收入</a></li>
+                <li><a href="/bill/analysis">统计与分析</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        您好! {{ name|default:"游客" }} <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/bill/zzbill/profile">个人中心</a></li>
+                        <li><a href="/bill/login">退出登录</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
     <!-- 轮播图 -->
-    <div id="mainCarousel" class="carousel slide" data-ride="carousel">
-        <ol class="carousel-indicators">
-            <li data-target="#mainCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#mainCarousel" data-slide-to="1"></li>
-            <li data-target="#mainCarousel" data-slide-to="2"></li>
-        </ol>
+<!--    <div id="mainCarousel" class="carousel slide" data-ride="carousel">-->
+<!--        <ol class="carousel-indicators">-->
+<!--            <li data-target="#mainCarousel" data-slide-to="0" class="active"></li>-->
+<!--            <li data-target="#mainCarousel" data-slide-to="1"></li>-->
+<!--            <li data-target="#mainCarousel" data-slide-to="2"></li>-->
+<!--        </ol>-->
 
-        <div class="carousel-inner">
-            <div class="item active">
-                <img src="{% static 'image/home1.jpeg' %}" alt="金融管理">
-                <div class="carousel-caption">
-                    <h3>智能财务管理</h3>
-                    <p>专业的财务分析工具，助您轻松管理资金</p>
-                </div>
-            </div>
-            <div class="item">
-                <img src="{% static 'image/home2.jpeg' %}" alt="数据分析">
-                <div class="carousel-caption">
-                    <h3>数据可视化</h3>
-                    <p>清晰的数据展示，帮助您做出明智决策</p>
-                </div>
-            </div>
-            <div class="item">
-                <img src="{% static 'image/home3.jpg' %}" alt="资金追踪">
-                <div class="carousel-caption">
-                    <h3>实时资金追踪</h3>
-                    <p>随时掌握资金动向，科学管理收支</p>
-                </div>
-            </div>
-        </div>
+<!--        <div class="carousel-inner">-->
+<!--            <div class="item active">-->
+<!--                <img src="{% static 'image/home1.jpeg' %}" alt="金融管理">-->
+<!--                <div class="carousel-caption">-->
+<!--                    <h3>智能财务管理</h3>-->
+<!--                    <p>专业的财务分析工具，助您轻松管理资金</p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="item">-->
+<!--                <img src="{% static 'image/home2.jpeg' %}" alt="数据分析">-->
+<!--                <div class="carousel-caption">-->
+<!--                    <h3>数据可视化</h3>-->
+<!--                    <p>清晰的数据展示，帮助您做出明智决策</p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="item">-->
+<!--                <img src="{% static 'image/home3.jpg' %}" alt="资金追踪">-->
+<!--                <div class="carousel-caption">-->
+<!--                    <h3>实时资金追踪</h3>-->
+<!--                    <p>随时掌握资金动向，科学管理收支</p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
 
-        <a class="left carousel-control" href="#mainCarousel" data-slide="prev">
-            <span class="glyphicon glyphicon-chevron-left"></span>
-        </a>
-        <a class="right carousel-control" href="#mainCarousel" data-slide="next">
-            <span class="glyphicon glyphicon-chevron-right"></span>
-        </a>
-    </div>
+<!--        <a class="left carousel-control" href="#mainCarousel" data-slide="prev">-->
+<!--            <span class="glyphicon glyphicon-chevron-left"></span>-->
+<!--        </a>-->
+<!--        <a class="right carousel-control" href="#mainCarousel" data-slide="next">-->
+<!--            <span class="glyphicon glyphicon-chevron-right"></span>-->
+<!--        </a>-->
+<!--    </div>-->
 
     <div class="container">
         <div class="content-wrapper">
             {% block content %}{% endblock %}
         </div>
     </div>
+
+<footer class="footer">
+    <div class="footer-content">
+        <div class="contact-info">
+            <h4>联系我们</h4>
+            <p class="fcolor">地址: 浙江 杭州 余杭区</p>
+            <p class="fcolor">电话: 19101234567</p>
+            <p class="fcolor">电子邮件：<a href="mailto:info@company.com">jizhangxitong@company.com</a></p>
+            <div class="social-media">
+                <a href="https://facebook.com/company" target="_blank" rel="noopener noreferrer">Facebook</a>
+                <a href="https://twitter.com/company" target="_blank" rel="noopener noreferrer">Twitter</a>
+                <a href="https://linkedin.com/company" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            </div>
+        </div>
+        <div class="footer-nav">
+            <h4>快速导航</h4>
+            <ul>
+                <li><a href="/about">关于我们</a></li>
+                <li><a href="/services">服务</a></li>
+                <li><a href="/blog">博客</a></li>
+                <li><a href="/faq">常见问题</a></li>
+                <li><a href="/sitemap">网站地图</a></li>
+            </ul>
+        </div>
+        <div class="legal-info">
+            <h4>法律信息</h4>
+            <ul>
+                <li><a href="/privacy-policy">隐私政策</a></li>
+                <li><a href="/terms-of-service">用户协议</a></li>
+                <li><a href="/disclaimer">免责声明</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2024 记账系统. 保留所有权利.</p>
+    </div>
+</footer>
+
 
     <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
     <script src="{% static 'plugins/bootstrap-3.4.1/js/bootstrap.min.js' %}"></script>

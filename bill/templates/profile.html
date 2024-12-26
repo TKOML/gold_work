@@ -1,0 +1,192 @@
+{% extends 'zzbill.html' %}
+{% load static %}
+{% block content %}
+
+<!-- 页面内嵌样式 -->
+<style>
+    /* 主题色 */
+    :root {
+        --primary-color: #FFD700; /* 金黄色 */
+        --secondary-bg-color: #f9f9f9;
+        --text-color: #333;
+        --light-text-color: #666;
+        --border-color: rgba(0, 0, 0, 0.1);
+    }
+
+    .profile-container {
+        width: 80%;
+        margin-top: 50px;
+        padding: 40px;
+        background-color: var(--secondary-bg-color);
+        border-radius: 20px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .profile-container:hover {
+        transform: translateY(-10px);
+    }
+
+    .profile-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .profile-header h2 {
+        margin: 0;
+        color: var(--primary-color);
+        font-size: 36px;
+        font-weight: bold;
+        letter-spacing: 2px;
+    }
+
+    .profile-header p {
+        color: var(--light-text-color);
+        font-size: 16px;
+        margin-top: 5px;
+    }
+
+    .profile-info {
+        background-color: white;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .profile-info ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .profile-info ul li {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+        font-size: 18px;
+        color: var(--text-color);
+    }
+
+    .profile-info ul li span {
+        font-weight: bold;
+        color: var(--primary-color);
+        margin-right: 10px;
+        min-width: 80px;
+        display: inline-block;
+    }
+
+    .profile-edit {
+        margin-top: 40px;
+        background-color: white;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile-edit h3 {
+        margin-bottom: 20px;
+        color: var(--primary-color);
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: var(--primary-color);
+    }
+
+    .form-group input,
+    .form-group select {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid var(--border-color);
+        border-radius: 10px;
+        font-size: 16px;
+        transition: border-color 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+        border-color: var(--primary-color);
+        outline: none;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 12px 24px;
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        text-align: center;
+        transition: background-color 0.3s, transform 0.3s;
+        font-size: 16px;
+    }
+
+    .btn:hover {
+        background-color: darken(var(--primary-color), 10%);
+        transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+        .profile-container {
+            width: 90%;
+        }
+    }
+</style>
+
+<div class="profile-container">
+    <!-- Header -->
+    <div class="profile-header">
+        <h2>个人中心</h2>
+        <p>查看和管理您的个人信息</p>
+    </div>
+
+    <!-- 用户信息展示 -->
+    <div class="profile-info">
+        <h3>基本信息</h3>
+        <ul>
+            <li><span>姓名：</span>{{ user_info.name }}</li>
+            <li><span>手机号：</span>{{ user_info.phone }}</li>
+            <li><span>年龄：</span>{{ user_info.age }}</li>
+            <li><span>性别：</span>{{ user_info.get_gender_display }}</li>
+        </ul>
+    </div>
+
+    <!-- 编辑个人信息表单 -->
+    <div class="profile-edit">
+        <h3>编辑个人信息</h3>
+        <form action="{% url 'bill:profile_update' %}" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="name">姓名:</label>
+                <input type="text" id="name" name="name" value="{{ user_info.name }}" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">手机号:</label>
+                <input type="text" id="phone" name="phone" value="{{ user_info.phone }}" required>
+            </div>
+            <div class="form-group">
+                <label for="age">年龄:</label>
+                <input type="number" id="age" name="age" value="{{ user_info.age }}" required>
+            </div>
+            <div class="form-group">
+                <label for="gender">性别:</label>
+                <select id="gender" name="gender" required>
+                    <option value="1" {% if user_info.gender == 1 %}selected{% endif %}>男</option>
+                    <option value="2" {% if user_info.gender == 2 %}selected{% endif %}>女</option>
+                </select>
+            </div>
+            <button type="submit" class="btn">保存修改</button>
+        </form>
+    </div>
+
+</div>
+
+{% endblock %}

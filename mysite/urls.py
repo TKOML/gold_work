@@ -24,4 +24,5 @@ urlpatterns = [
     path('funds/', include('funds.urls')),
     path('accounts/', include('accounts.urls')),
     path('myfunds/', include('myfunds.urls')),  # 导入 myfunds 的 urls 配置
+    path('', include('bill.urls')),  # 根路径直接指向 bill 应用
 ]

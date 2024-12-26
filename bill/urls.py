@@ -7,6 +7,10 @@ urlpatterns = [
     path('login', views.login, name='login'),
     path('zzbill/', views.zzbill, name='zzbill'),
     path('register', views.register, name='register'),
+    path('zzbill/index', views.index, name='index'),
+    path('zzbill/profile', views.profile, name='profile'),
+    path('zzbill/profile/update/', views.update_profile, name='profile_update'),
+    path('', views.index, name='index'),  # 默认页面
 
     # 支出账单管理
     path('zzbill/outcome/list/', views.outcome_list, name='outcome_list'),
@@ -25,4 +29,7 @@ urlpatterns = [
     path('analysis/bar/', views.bar, name='bar'),
     path('analysis/pie/', views.pie, name='pie'),
     path('<slug:year_month>/text/', views.text, name='text'),
+
+
+
 ]
