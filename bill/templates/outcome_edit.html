@@ -1,57 +1,140 @@
-<!DOCTYPE html>
+{% extends 'zzbill.html' %}
 {% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>黄金矿工记账系统</title>
-    <link rel="stylesheet" href="{% static 'plugins/bootstrap-3.4.1/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css' %}">
-</head>
-<body>
 
+{% block content %}
+<style>
+    .expense-edit-container {
+        margin-top: 80px;
+    }
 
-<br>
-<br>
-<br>
-<br>
+    .expense-edit-container .edit-container {
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+    }
 
-    <div class="container">
-        <div class="panel panel-default">
+    .expense-edit-container .edit-panel {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        border: none;
+    }
+
+    .expense-edit-container .panel-heading {
+        background: #FFC807;
+        border-radius: 15px 15px 0 0;
+        padding: 20px;
+        border: none;
+    }
+
+    .expense-edit-container .panel-title {
+        color: white;
+        font-size: 20px;
+        font-weight: 500;
+    }
+
+    .expense-edit-container .panel-body {
+        padding: 30px;
+    }
+
+    .expense-edit-container .form-group {
+        margin-bottom: 25px;
+    }
+
+    .expense-edit-container .form-group label {
+        color: #555;
+        font-size: 16px;
+        font-weight: 500;
+        margin-bottom: 10px;
+    }
+
+    .expense-edit-container .form-control {
+        height: 45px;
+        border-radius: 8px;
+        border: 2px solid #e9ecef;
+        padding: 10px 15px;
+        font-size: 15px;
+        transition: all 0.3s ease;
+    }
+
+    .expense-edit-container .form-control:focus {
+        border-color: #FFC807;
+        box-shadow: 0 0 0 0.2rem rgba(255, 200, 7, 0.25);
+    }
+
+    .expense-edit-container .error-message {
+        color: #dc3545;
+        font-size: 14px;
+        margin-top: 5px;
+    }
+
+    .expense-edit-container .btn-submit {
+        background: #FFC807;
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        font-size: 16px;
+        font-weight: 500;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .expense-edit-container .btn-submit:hover {
+        background: #FFD700;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 200, 7, 0.3);
+        color: white;
+    }
+
+    .expense-edit-container .datepicker table tr td.active.active {
+        background-color: #FFC807 !important;
+        background-image: none;
+        border-color: #FFC807 !important;
+    }
+</style>
+
+<div class="expense-edit-container">
+    <div class="edit-container">
+        <div class="panel edit-panel">
             <div class="panel-heading">
-                <h3 class="panel-title"> 编辑支出 </h3>
+                <h3 class="panel-title">
+                    <span class="glyphicon glyphicon-edit"></span>
+                    编辑支出
+                </h3>
             </div>
             <div class="panel-body">
                 <form method="post" novalidate>
                     {% csrf_token %}
-
                     {% for field in form %}
                         <div class="form-group">
                             <label>{{ field.label }}</label>
                             {{ field }}
-                            <span style="color: red;">{{ field.errors.0 }}</span>
+                            <span class="error-message">{{ field.errors.0 }}</span>
                         </div>
                     {% endfor %}
-                    <button type="submit" class="btn btn-primary">提 交</button>
+                    <button type="submit" class="btn btn-submit">
+                        <span class="glyphicon glyphicon-ok"></span>
+                        保存修改
+                    </button>
                 </form>
             </div>
         </div>
     </div>
+</div>
 
-
-<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
-<script src="{% static 'plugins/bootstrap-3.4.1/js/bootstrap.min.js' %}"></script>
-<script src="{% static 'plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' %}"></script>
-<script src="{% static 'plugins/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js' %}"></script>
 <script>
-        $(function () {
-            $('#id_time_out').datepicker({
-                format: 'yyyy-mm-dd',
-                startDate: '2022-1-1',
-                language: "zh-CN",
-                autoclose: true,
-            });
-
-        })
+    $(function () {
+        $('#id_time_out').datepicker({
+            format: 'yyyy-mm-dd',
+            startDate: '2022-1-1',
+            language: "zh-CN",
+            autoclose: true,
+            todayHighlight: true,
+            templates: {
+                leftArrow: '<span class="glyphicon glyphicon-chevron-left"></span>',
+                rightArrow: '<span class="glyphicon glyphicon-chevron-right"></span>'
+            }
+        });
+    });
 </script>
-</body>
-</html>
+{% endblock %}

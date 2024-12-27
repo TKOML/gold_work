@@ -104,65 +104,55 @@
             white-space: nowrap;
         }
 
-        .dropdown-menu {
-            top: 100%; /* 紧贴父级菜单项 */
-            left: 0;
-            background: linear-gradient(135deg, #ffd700, #f9c802); /* 添加渐变背景 */
-            border-radius: 12px; /* 圆角更柔和 */
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* 增加柔和阴影 */
-            padding: 10px 0; /* 上下内边距 */
-            z-index: 1050; /* 确保菜单在其他内容之上 */
-            overflow: hidden; /* 防止溢出 */
-            transition: transform 0.3s ease, opacity 0.3s ease; /* 添加动画效果 */
-            transform: translateY(-10px); /* 初始位置稍微向上 */
-            opacity: 0; /* 初始不可见 */
-            visibility: hidden; /* 初始隐藏 */
-            color: #fff;
+   .navbar-custom {
+            background: #FFC807; /* 半透明金色 */
+            backdrop-filter: blur(10px); /* 模糊背景 */
+            border: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: fixed; /* 固定在顶部 */
+            height: 90px;
+            top: 0;
+            width: 100%;
+            z-index: 1030;
         }
 
-        .dropdown:hover .dropdown-menu,
-        .dropdown:focus-within .dropdown-menu {
-            transform: translateY(0); /* 悬停时归位 */
-            opacity: 1; /* 完全可见 */
-            visibility: visible; /* 显示菜单 */
-            color: #fff;
+        .navbar-custom .navbar-brand,
+        .navbar-custom .navbar-nav > li > a {
+            margin-left: -30px;
+            color: #FFFFFF;
+            transition: all 0.3s ease;
         }
 
-        .dropdown-menu > li > a {
-            color: #fff;
-            font-size: 16px;
+        .navbar-custom .navbar-brand {
+            padding: 30px 35px;
+            font-weight: 700;
+            font-size: 28px;
+            color: #FFFFFF;
+        }
+
+        .navbar-custom .navbar-brand:hover {
+            font-weight: 700;
+            font-size: 28px;
+            color: #FFFFFF;
+        }
+
+
+        .navbar-nav > li > a {
+            padding: 30px 35px;
             font-weight: 500;
-            padding: 8px 20px; /* 增加内边距 */
-            text-decoration: none; /* 移除下划线 */
-            display: block;
-            transition: all 0.3s ease; /* 添加渐变动画 */
+            font-size: 20px;
+            transition: color 0.3s, transform 0.3s;
         }
 
-        .dropdown-menu > li > a:hover,
-        .dropdown-menu > li > a:focus {
-            color: #fff; /* 悬停时文字颜色 */
-            background: linear-gradient(135deg, #ffd700, #f9c802);
-            transform: scale(1.05); /* 悬停时放大 */
-            text-decoration: none; /* 保持无下划线 */
+        .navbar-custom .navbar-nav > li > a:hover,
+        .navbar-custom .navbar-nav > li.active > a {
+            color: #f39c12;
+            font-weight: 700;
+            font-size: 25px;
+            transform: translateY(-2px);
         }
 
-        .dropdown-toggle {
-            color: #fff; /* 默认文字颜色 */
-            font-size: 18px; /* 字体大小 */
-            font-weight: 600; /* 字体加粗 */
-            text-decoration: none; /* 移除下划线 */
-            padding: 10px 15px; /* 增加内边距 */
-            transition: all 0.3s ease; /* 平滑过渡效果 */
-            background: linear-gradient(135deg, #ffd700, #f9c802);
-        }
-
-        .dropdown-toggle:hover,
-        .dropdown-toggle:focus {
-            color: #fff; /* 悬停和聚焦时文字颜色 */
-            background: linear-gradient(135deg, #ffd700, #f9c802); /* 渐变背景 */
-            text-decoration: none; /* 保持无下划线 */
-            transform: translateY(-2px); /* 悬停时轻微上移 */
-        }
 
         .home-section {
             margin-top: 5%;
@@ -318,6 +308,65 @@
             color: #e9eeee;
         }
 
+.dropdown-menu {
+    top: 100%; /* 紧贴父级菜单项 */
+    left: 0;
+    background: #FFC807; /* 添加渐变背景 */
+    border-radius: 12px; /* 圆角更柔和 */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* 增加柔和阴影 */
+    padding: 10px 0; /* 上下内边距 */
+    z-index: 1050; /* 确保菜单在其他内容之上 */
+    overflow: hidden; /* 防止溢出 */
+    transition: transform 0.3s ease, opacity 0.3s ease; /* 添加动画效果 */
+    transform: translateY(-10px); /* 初始位置稍微向上 */
+    opacity: 0; /* 初始不可见 */
+    visibility: hidden; /* 初始隐藏 */
+    color: #fff;
+}
+
+.dropdown:hover .dropdown-menu,
+.dropdown:focus-within .dropdown-menu {
+    transform: translateY(0); /* 悬停时归位 */
+    opacity: 1; /* 完全可见 */
+    visibility: visible; /* 显示菜单 */
+    color: #fff;
+}
+
+.dropdown-menu > li > a {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 8px 20px; /* 增加内边距 */
+    text-decoration: none; /* 移除下划线 */
+    display: block;
+    transition: all 0.3s ease; /* 添加渐变动画 */
+}
+
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+    color: #fff; /* 悬停时文字颜色 */
+    background: #FFC807 !important;
+    transform: scale(1.05); /* 悬停时放大 */
+    text-decoration: none; /* 保持无下划线 */
+}
+
+.dropdown-toggle {
+    color: #fff; /* 默认文字颜色 */
+    font-size: 18px; /* 字体大小 */
+    font-weight: 600; /* 字体加粗 */
+    text-decoration: none; /* 移除下划线 */
+    padding: 10px 15px; /* 增加内边距 */
+    transition: all 0.3s ease; /* 平滑过渡效果 */
+    background: #FFC807 !important;
+}
+
+.dropdown-toggle:hover,
+.dropdown-toggle:focus {
+    color: #fff; /* 悬停和聚焦时文字颜色 */
+    background: #FFC807 !important; /* 渐变背景 */
+    text-decoration: none; /* 保持无下划线 */
+    transform: translateY(-2px); /* 悬停时轻微上移 */
+}
 
         @media (max-width: 768px) {
             .navbar-nav > li > a {

@@ -1,68 +1,149 @@
 {% extends 'zzbill.html' %}
 
 {% block content %}
-<div style="margin-top: 60px;">
-    <div class="container">
-        <div style="margin-bottom: 10px">
-            <a class="btn btn-success" href="{% url 'bill:outcome_add' %}">
-                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-                新增支出
-            </a>
-            <div style="float: right; width: 200px;">
-                <form method="get">
-                    <div class="input-group">
-                        <input type="month" name="time" class="form-control"  value="{{ search_data }}">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="submit">
-                                <span class="glyphicon glyphicon-search" aria-hidden="true">
-                                </span>
-                            </button>
-                        </span>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-                支出列表
-            </div>
+<style>
+    /* 将之前提供的CSS样式复制到这里 */
+    .custom-container {
+        margin-top: 60px;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
 
-            <table class="table table-bordered" width="600">
-                <thead>
-                <tr>
-                    <th class="td">时间</th>
-                    <td class="td">账户</td>
-                    <td class="td">类别</td>
-                    <td class="td">金额（元）</td>
-                    <td class="td">备注</td>
-                    <td class="td">操作(Edit/Delete)</td>
-                </tr>
-                </thead>
-                <tbody>
-                {% for obj in queryset %}
-                    <tr>
-                        <th>{{ obj.time_out|date:"Y-m-d" }}</th>
-                        <td>{{ obj.get_account_type_out_display }}</td>
-                        <td>{{ obj.get_classify_type_out_display }}</td>
-<!--                        注意get_display用法-->
-                        <td>{{ obj.money_out }}</td>
-                        <td>{{ obj.notes_out }}</td>
-                        <td>
-                            <a class="btn btn-primary btn-xs" href="{% url 'bill:outcome_edit' nid=obj.id %}">编辑</a>
-                            <a class="btn btn-danger btn-xs" href="{% url 'bill:outcome_delete' nid=obj.id %}">删除</a>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
+    .action-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .add-btn {
+        background: #FFC807;
+        color: white;
+        padding: 8px 15px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .add-btn:hover {
+        background: #FFD700;
+        transform: translateY(-2px);
+        color: white;
+        text-decoration: none;
+    }
+
+    .search-form .input-group {
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .search-form .form-control {
+        border: 2px solid #FFC807;
+        height: 38px;
+    }
+
+    .search-form .btn {
+        background: #FFC807;
+        color: white;
+        border: none;
+    }
+
+    .panel {
+        border: none;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .panel-heading {
+        background: #FFC807 !important;
+        color: white;
+        font-size: 18px;
+        padding: 15px;
+        border: none;
+    }
+
+    .table th {
+        background: #fff9e6;
+        color: #666;
+    }
+
+    .table > tbody > tr:hover {
+        background-color: #fff9e6;
+    }
+
+    .pagination > li > a {
+        color: #FFC807;
+    }
+
+    .pagination > .active > a {
+        background-color: #FFC807;
+        border-color: #FFC807;
+    }
+</style>
+
+<div class="custom-container">
+    <div class="action-bar">
+        <a class="add-btn" href="{% url 'bill:outcome_add' %}">
+            <span class="glyphicon glyphicon-plus-sign"></span>
+            新增支出
+        </a>
+        <form method="get" class="search-form" style="width: 200px;">
+            <div class="input-group">
+                <input type="month" name="time" class="form-control" value="{{ search_data }}">
+                <span class="input-group-btn">
+                    <button class="btn" type="submit">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </span>
+            </div>
+        </form>
     </div>
-    <div class="clearfix" style="text-align: center">
-        <ul class="pagination" >
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="glyphicon glyphicon-th-list"></span>
+            支出列表
+        </div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>时间</th>
+                    <th>账户</th>
+                    <th>类别</th>
+                    <th>金额（元）</th>
+                    <th>备注</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for obj in queryset %}
+                <tr>
+                    <td>{{ obj.time_out|date:"Y-m-d" }}</td>
+                    <td>{{ obj.get_account_type_out_display }}</td>
+                    <td>{{ obj.get_classify_type_out_display }}</td>
+                    <td>{{ obj.money_out }}</td>
+                    <td>{{ obj.notes_out }}</td>
+                    <td>
+                        <a class="btn btn-xs" href="{% url 'bill:outcome_edit' nid=obj.id %}" style="font-size:15px">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                            编辑
+                        </a>
+                        <a class="btn btn-xs " href="{% url 'bill:outcome_delete' nid=obj.id %}" style="font-size:15px">
+                            <span class="glyphicon glyphicon-trash"></span>
+                            删除
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="text-center">
+        <ul class="pagination">
             {{ page_string }}
         </ul>
-
     </div>
 </div>
-
 {% endblock %}

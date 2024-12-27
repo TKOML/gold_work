@@ -360,7 +360,7 @@ def update_profile(request):
     try:
         user_info = get_object_or_404(UserImformation, name=request.session["info"]["name"])
     except KeyError:
-        return redirect('login')
+        return redirect('bill:login')
 
     if request.method == 'POST':
         form = UserModelForm(request.POST, instance=user_info)
@@ -562,3 +562,136 @@ def day_goal(request):
 def redirect_to_funds_index(request):
     return redirect('funds:index')
 
+
+
+
+from django.contrib.auth import update_session_auth_hash, logout
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_http_methods
+from django.contrib.auth.hashers import check_password
+def redirect_to_funds_index(request):
+    return redirect('funds:index')
+
+
+#最后的
+@login_required
+def profile_view(request):
+    """个人中心页面视图"""
+    user_info = UserImformation.objects.get(user=request.user)
+    context = {
+        'user_info': user_info
+    }
+    return render(request, 'profile.html', context)
+
+
+@login_required
+@require_http_methods(["POST"])
+@login_required
+@require_http_methods(["POST"])
+def profile_update(request):
+    """更新个人信息"""
+    try:
+        user_info = UserImformation.objects.get(user=request.user)
+
+        user_info.name = request.POST.get('name', user_info.name)
+        user_info.phone = request.POST.get('phone', user_info.phone)
+        user_info.age = request.POST.get('age', user_info.age)
+        user_info.gender = request.POST.get('gender', user_info.gender)
+
+        if 'avatar' in request.FILES:
+            user_info.avatar = request.FILES['avatar']
+
+        user_info.save()
+
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({
+                'success': True,
+                'message': '个人信息更新成功'
+            })
+        return redirect('bill:profile')  # Add redirect for normal form submit
+
+    except Exception as e:
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({
+                'success': False,
+                'message': str(e)
+            })
+        messages.error(request, f'更新失败: {str(e)}')
+        return redirect('bill:profile')
+@login_required
+@require_http_methods(["POST"])
+def change_password(request):
+    """修改密码"""
+    try:
+        user = request.user
+        old_password = request.POST.get('old_password')
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_password')
+
+        # 验证旧密码
+        if not check_password(old_password, user.password):
+            return JsonResponse({
+                'success': False,
+                'message': '原密码不正确'
+            })
+
+        # 验证新密码
+        if new_password != confirm_password:
+            return JsonResponse({
+                'success': False,
+                'message': '两次输入的新密码不一致'
+            })
+
+        # 验证新密码长度和复杂度
+        if len(new_password) < 8:
+            return JsonResponse({
+                'success': False,
+                'message': '新密码长度不能小于8位'
+            })
+
+        # 更新密码
+        user.set_password(new_password)
+        user.save()
+
+        # 更新session，防止被登出
+        update_session_auth_hash(request, user)
+
+        return JsonResponse({
+            'success': True,
+            'message': '密码修改成功，请重新登录'
+        })
+
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'message': str(e)
+        })
+
+
+@login_required
+@require_http_methods(["POST"])
+def delete_account(request):
+    """注销账号"""
+    try:
+        user = request.user
+        # 先删除用户信息
+        UserImformation.objects.filter(user=user).delete()
+        # 再删除用户账号
+        user.delete()
+
+        return JsonResponse({
+            'success': True,
+            'message': '账号已成功注销'
+        })
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'message': str(e)
+        })
+
+
+@login_required
+def logout_view(request):
+    """退出登录"""
+    logout(request)
+    return redirect('bill:login')

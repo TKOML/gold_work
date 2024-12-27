@@ -1,24 +1,106 @@
-<!DOCTYPE html>
+{% extends 'zzbill.html' %}
 {% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>黄金矿工记账系统</title>
-    <link rel="stylesheet" href="{% static 'plugins/bootstrap-3.4.1/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css' %}">
-</head>
-<body>
 
+{% block content %}
+<style>
+    /* 使用更具体的选择器来避免样式冲突 */
+    .income-form-container {
+        padding-top: 80px;
+    }
 
-<br>
-<br>
-<br>
-<br>
+    .income-form-container .container {
+        max-width: 800px;
+    }
 
+    .income-form-container .panel {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        background: rgba(255, 255, 255, 0.95);
+    }
+
+    .income-form-container .panel-heading {
+        background: #FFC807 !important;
+        border-radius: 15px 15px 0 0 !important;
+        padding: 20px;
+        border: none;
+    }
+
+    .income-form-container .panel-title {
+        color: #fff;
+        font-size: 24px;
+        font-weight: bold;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+
+    .income-form-container .panel-body {
+        padding: 30px;
+    }
+
+    .income-form-container .form-group {
+        margin-bottom: 25px;
+    }
+
+    .income-form-container .form-group label {
+        color: #666;
+        font-size: 16px;
+        font-weight: 500;
+        margin-bottom: 10px;
+    }
+
+    .income-form-container .form-control {
+        height: 45px;
+        border-radius: 8px;
+        border: 2px solid #e9ecef;
+        padding: 10px 15px;
+        font-size: 15px;
+        transition: all 0.3s ease;
+    }
+
+    .income-form-container .form-control:focus {
+        border-color: #FFC807;
+        box-shadow: 0 0 0 0.2rem rgba(255, 200, 7, 0.25);
+    }
+
+    .income-form-container .btn-primary {
+        background: #FFC807;
+        border: none;
+        padding: 12px 30px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .income-form-container .btn-primary:hover {
+        background: #FFD700;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 200, 7, 0.3);
+    }
+
+    /* Datepicker customization */
+    .income-form-container .datepicker table tr td.active,
+    .income-form-container .datepicker table tr td.active:hover {
+        background-color: #FFC807 !important;
+        background-image: none;
+    }
+
+    .income-form-container .error-message {
+        color: #dc3545;
+        font-size: 14px;
+        margin-top: 5px;
+        display: block;
+    }
+</style>
+
+<div class="income-form-container">
     <div class="container">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title"> 新增收入 </h3>
+                <h3 class="panel-title">
+                    <i class="glyphicon glyphicon-plus-sign"></i>
+                    新增收入
+                </h3>
             </div>
             <div class="panel-body">
                 <form method="post" novalidate>
@@ -28,31 +110,34 @@
                         <div class="form-group">
                             <label>{{ field.label }}</label>
                             {{ field }}
-                            <span style="color: red;">{{ field.errors.0 }}</span>
+                            <span class="error-message">{{ field.errors.0 }}</span>
                         </div>
                     {% endfor %}
 
-                    <button type="submit" class="btn btn-primary">提 交</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="glyphicon glyphicon-ok"></i>
+                        提交收入
+                    </button>
                 </form>
             </div>
         </div>
     </div>
+</div>
 
-
-<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
-<script src="{% static 'plugins/bootstrap-3.4.1/js/bootstrap.min.js' %}"></script>
-<script src="{% static 'plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' %}"></script>
-<script src="{% static 'plugins/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js' %}"></script>
+<!-- 只保留日期选择器相关的初始化代码，因为其他JS文件应该已在基础模板中引入 -->
 <script>
-        $(function () {
-            $('#id_time_in').datepicker({
-                format: 'yyyy-mm-dd',
-                startDate: '2022-1-1',
-                language: "zh-CN",
-                autoclose: true,
-            });
-
-        })
+    $(function () {
+        $('#id_time_in').datepicker({
+            format: 'yyyy-mm-dd',
+            startDate: '2022-1-1',
+            language: "zh-CN",
+            autoclose: true,
+            todayHighlight: true,
+            templates: {
+                leftArrow: '<i class="glyphicon glyphicon-chevron-left"></i>',
+                rightArrow: '<i class="glyphicon glyphicon-chevron-right"></i>'
+            }
+        });
+    })
 </script>
-</body>
-</html>
+{% endblock %}

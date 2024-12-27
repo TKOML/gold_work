@@ -2,129 +2,116 @@
 
 {% block content %}
 <style>
-    /* 优化整体布局和样式 */
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f4f4f4; /* 更浅的背景色 */
+    }
     .content-wrapper {
-        padding-top: 80px;
+        max-width: 800px;
+        margin: 40px auto;
+        background-color: #fff;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 15px;
+        padding: 30px;
+        border: 2px solid #FFC807; /* 主题色边框 */
     }
 
-    /* 优化聊天框样式 */
     #chat-box {
         height: 500px;
         overflow-y: auto;
-        border: 1px solid #e0e0e0;
-        border-radius: 8px;
-        background: #fffceb;
+        border: 1px solid #FFC807;
+        border-radius: 15px;
+        background-color: #fff;
         padding: 20px;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
+        margin-bottom: 20px;
     }
 
-    /* 优化消息气泡样式 */
     .message {
-        display: flex;
-        max-width: 70%;
-        padding: 10px 15px;
-        border-radius: 12px;
-        font-size: 14px;
-        line-height: 1.5;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 15px;
+        padding: 10px 20px;
+        border-radius: 20px;
+        max-width: 60%;
+        line-height: 1.4;
         word-wrap: break-word;
     }
-    .message.user {
+    .user {
         align-self: flex-end;
-        background-color: #ffcc66; /* 更改颜色 */
+        background-color: #FFC807; /* 用户消息背景色为主题色 */
         color: #333;
+        margin-left: auto; /* 靠右对齐 */
     }
-    .message.assistant {
+    .assistant {
         align-self: flex-start;
-        background-color: #ffffff; /* 更改颜色 */
+        background-color: #f9f9f9;
         color: #333;
+        margin-right: auto; /* 靠左对齐 */
     }
-    .message.error {
+    .error {
         align-self: center;
-        background-color: #ffe4e4;
-        color: #d32f2f;
+        background-color: #ffebee;
+        color: #f44336;
     }
 
-    /* 优化表单样式 */
     #chat-form {
         display: flex;
         gap: 10px;
-        margin-top: 20px;
     }
-    #chat-form input[type="text"] {
+    #user-input {
         flex-grow: 1;
-        padding: 12px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        font-size: 14px;
-        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        padding: 10px 20px;
+        border: 1px solid #ddd;
+        border-radius: 20px;
         outline: none;
-        background: #fffceb;
-        transition: border-color 0.3s;
+        transition: all 0.3s ease;
     }
-    #chat-form input[type="text"]:focus {
-        border-color: #007bff;
+    #user-input:focus {
+        border-color: #FFC807;
+        box-shadow: 0 0 0 0.2rem rgba(255, 200, 7, 0.25);
     }
     #chat-form button {
-        padding: 12px 20px;
-        background-color: #ffcc66; /* 更改颜色 */
-        color: #fff;
+        padding: 10px 20px;
+        background-color: #FFC807; /* 按钮背景色为主题色 */
+        color: #333;
         border: none;
-        border-radius: 8px;
-        font-size: 14px;
+        border-radius: 20px;
         cursor: pointer;
-        transition: background-color 0.3s;
+        transition: all 0.3s ease;
     }
     #chat-form button:hover {
-        background-color: darken(#ffcc66, 10%); /* 深化颜色 */
+        background-color: #FFD700; /* 悬停时更亮的颜色 */
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 200, 7, 0.3);
     }
 
-    /* 用户信息样式 */
     .user-info {
         text-align: center;
-        margin-bottom: 20px;
-    }
-    .user-info h3 {
-        font-size: 1.2rem;
-        font-weight: bold;
-        color: #333;
-        margin: 0;
+        margin-bottom: 30px;
     }
     .user-info p {
-        font-size: 0.9rem;
+        font-size: 18px;
         color: #666;
     }
 
-    /* 适配移动端 */
     @media (max-width: 768px) {
+        .content-wrapper {
+            margin: 20px;
+            padding: 20px;
+        }
         #chat-box {
             height: 400px;
-        }
-        .message {
-            font-size: 13px;
-        }
-        #chat-form button {
-            padding: 10px 16px;
         }
     }
 </style>
 
-<div class="container mx-auto p-4 content-wrapper" >
-    <div class="max-w-2xl mx-auto">
-        <!-- 用户信息 -->
-<!--        <div class="user-info">-->
-<!--            <h3>记账小助手</h3>-->
-<!--            <p>当前用户: {{ name }}</p>-->
-<!--        </div>-->
-        <p style="font-size:20px">当前用户: {{ name }}</p>
-        <div id="chat-box"></div>
-        <form id="chat-form">
-            <input type="text" id="user-input" placeholder="请输入您的消息...">
-            <button type="submit">发送</button>
-        </form>
+<div class="content-wrapper">
+    <div class="user-info">
+        <p>当前用户: {{ name }}</p>
     </div>
+    <div id="chat-box"></div>
+    <form id="chat-form">
+        <input type="text" id="user-input" placeholder="请输入您的消息...">
+        <button type="submit">发送</button>
+    </form>
 </div>
 
 <script>
@@ -162,7 +149,7 @@
         const chatBox = document.getElementById('chat-box');
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${role}`;
-        messageDiv.innerHTML = `<span>${content}</span>`;
+        messageDiv.innerHTML = content;
         chatBox.appendChild(messageDiv);
         chatBox.scrollTop = chatBox.scrollHeight;
     }

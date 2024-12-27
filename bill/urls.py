@@ -5,20 +5,26 @@ app_name = 'bill'
 
 urlpatterns = [
     # Authentication routes
-    # path('', views.login, name='login'),  # Default page is now login
+     path('', views.login, name='login'),  # Default page is now login
     path('login', views.login, name='login'),
     path('register', views.register, name='register'),
 
     # Main application routes
     path('index/', views.index, name='index'),  # Main page after login
     path('profile/', views.profile, name='profile'),
-    path('profile/update/', views.update_profile, name='profile_update'),
+
     # path('profile/delete/', views.delete_profile, name='profile_delete'),
     path('ai_chat/', views.ai_chat, name='ai_chat'),
-    path('virtual_world/',views.virtual_world, name='virtual_world'),
+    path('virtual_world/', views.virtual_world, name='virtual_world'),
     path('status/', views.status, name='status'),
     path('money/', views.money, name='money'),
     path('day_goal/', views.day_goal, name='day_goal'),
+
+    # path('profile/', views.profile_view, name='profile'),
+    path('profile/update/', views.profile_update, name='profile_update'),
+    path('change-password/', views.change_password, name='change_password'),
+    path('delete-account/', views.delete_account, name='delete_account'),
+    path('logout/', views.logout_view, name='logout'),
 
     # Bill management routes
     # Outcome (expenses) routes
